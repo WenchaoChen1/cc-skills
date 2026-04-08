@@ -1,0 +1,11 @@
+{
+  "name": "cc-skills",
+  "version": "0.1.0",
+  "description": "Claude Code 和 Cursor 的中文技能集合",
+  "author": "Wenchao Chen",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WenchaoChen1/cc-skills.git"
+  }
+}
