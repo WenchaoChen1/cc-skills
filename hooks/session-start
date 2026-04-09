@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+# session-start — 扫描 skills/ 目录，输出可用技能列表
+# 根据平台环境变量选择正确的 JSON 输出格式
+
+set -euo pipefail
+
+# ── 确定插件根目录 ──────────────────────────────────────────
+if [[ -n "${CLAUDE_PLUGIN_ROOT:-}" ]]; then
+  PLUGIN_ROOT="$CLAUDE_PLUGIN_ROOT"
+elif [[ -n "${CURSOR_PLUGIN_ROOT:-}" ]]; then
+  PLUGIN_ROOT="$CURSOR_PLUGIN_ROOT"
+else
+  PLUGIN_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+fi
+
+SKILLS_DIR="$PLUGIN_ROOT/skills"
+
+# ── 扫描 SKILL.md 提取 name + description ──────────────────
+skill_list=""
+
+if [[ -d "$SKILLS_DIR" ]]; then
+  for skill_md in "$SKILLS_DIR"/[!_]*/SKILL.md; do
+    [[ -f "$skill_md" ]] || continue
+
+    name=""
+    description=""
+    in_frontmatter=false
+
+    while IFS= read -r line; do
+      if [[ "$line" == "---" ]]; then
+        if $in_frontmatter; then
+          break
+        else
+          in_frontmatter=true
+          continue
+        fi
+      fi
+
+      if $in_frontmatter; then
+        if [[ "$line" =~ ^name:[[:space:]]*(.*) ]]; then
+          name="${BASH_REMATCH[1]}"
+          # 去除引号
+          name="${name%\"}"
+          name="${name#\"}"
+          name="${name%\'}"
+          name="${name#\'}"
+        elif [[ "$line" =~ ^description:[[:space:]]*(.*) ]]; then
+          description="${BASH_REMATCH[1]}"
+          description="${description%\"}"
+          description="${description#\"}"
+          description="${description%\'}"
+          description="${description#\'}"
+        fi
+      fi
+    done < "$skill_md"
+
+    if [[ -n "$name" ]]; then
+      if [[ -n "$skill_list" ]]; then
+        skill_list="$skill_list\\n- ${name}: ${description}"
+      else
+        skill_list="- ${name}: ${description}"
+      fi
+    fi
+  done
+fi
+
+# ── 如果没有找到任何技能则退出 ─────────────────────────────
+if [[ -z "$skill_list" ]]; then
+  exit 0
+fi
+
+# ── 构建 additionalContext 内容 ────────────────────────────
+context="cc-skills 可用技能:\\n${skill_list}"
+
+# ── 转义 JSON 字符串中的特殊字符 ──────────────────────────
+json_escape() {
+  local s="$1"
+  s="${s//\\/\\\\}"
+  s="${s//\"/\\\"}"
+  printf '%s' "$s"
+}
+
+escaped_context="$(json_escape "$context")"
+
+# ── 根据平台输出 JSON ─────────────────────────────────────
+if [[ -n "${CURSOR_PLUGIN_ROOT:-}" ]]; then
+  # Cursor 平台
+  printf '{"additional_context": "%s"}\n' "$escaped_context"
+elif [[ -n "${CLAUDE_PLUGIN_ROOT:-}" && -z "${COPILOT_CLI:-}" ]]; then
+  # Claude Code 平台（非 Copilot CLI）
+  printf '{"hookSpecificOutput": {"additionalContext": "%s"}}\n' "$escaped_context"
+else
+  # 其他平台 / 默认
+  printf '{"additionalContext": "%s"}\n' "$escaped_context"
+fi
