@@ -30,57 +30,109 @@ Codex、OpenCode 等平台的支持正在规划中，详见对应目录下的 `I
 
 ## 技能列表
 
-| 技能 | 说明 | 标签 |
-|------|------|------|
-| review-requirement-doc | 审查产品功能需求文档 | review, documentation, requirements |
-| review-design-doc | 审查功能设计文档 | review, documentation, design |
+### 产品与需求
 
-## 技能使用
+| 技能 | 说明 |
+|------|------|
+| gen-requirement-doc | 生成产品功能需求文档（PRD） |
+| review-requirement-doc | 审查产品功能需求文档 |
+
+### 设计与开发
+
+| 技能 | 说明 |
+|------|------|
+| gen-design-doc | 生成功能设计文档 |
+| review-design-doc | 审查功能设计文档 |
+| dev-common | 开发 skill 公共规范 |
+| dev-run | 智能调度器，自动检测技术栈分发开发 |
+| backend-java | Java 后端开发 |
+| backend-python | Python 后端开发 |
+| frontend | 前端开发 |
+| hotfix | 快速修复 bug |
+| review-implementation | 审查代码实现闭环 |
+
+### 测试
+
+| 技能 | 说明 |
+|------|------|
+| gen-unit-test | 生成自动化测试代码 |
+| gen-user-test-doc | 生成手动测试文档 |
+| run-tests | 执行测试并报告 |
+
+### 团队协作
+
+| 技能 | 说明 |
+|------|------|
+| team-all | 全流程串联（4 团队） |
+| team-product | 产品讨论团队 |
+| team-design | 技术设计团队 |
+| team-code | 开发团队 |
+| team-test | 测试团队 |
+
+### 流水线与审计
+
+| 技能 | 说明 |
+|------|------|
+| run-e2e-pipeline | 一键端到端开发流水线 |
+| team-usage-audit | Claude Code 使用审计报告 |
+
+## Agents
+
+13 个专业化 Agent，覆盖产品、设计、开发、测试四个团队：
+
+| Agent | 用途 |
+|-------|------|
+| arch-designer | 设计编写 |
+| arch-questioner | 技术疑点收集 |
+| arch-reviewer | 设计审查 |
+| demo-researcher | 代码研究员 |
+| dev-backend | 后端开发 |
+| dev-frontend | 前端开发 |
+| dev-reviewer | 代码审查 |
+| pm-questioner | 需求疑点收集 |
+| pm-reviewer | 需求审查 |
+| pm-writer | 需求编写 |
+| qa-designer | 测试设计 |
+| qa-developer | 测试开发 |
+| qa-executor | 测试执行 |
+
+## 技能使用示例
 
 ### review-requirement-doc — 审查需求文档
 
 站在开发、QA、PM 三个角色视角，深度审查产品功能需求文档，输出按严重度排序的问题清单。
 
-**调用方式：**
 ```
 /review-requirement-doc <功能名称或文档路径>
 ```
-
-**示例：**
-- `/review-requirement-doc financial-dashboard` — 按功能名称自动定位文档
-- `/review-requirement-doc path/to/requirement.md` — 指定文档路径
-
-**审查维度：**
-- 业务逻辑完备性
-- 公式与计算逻辑
-- UI 与文档对照
-- 可测试性
-- 文档结构与质量
 
 **输出：** 按严重度分级的审查报告（🔴 阻断性 / 🟡 重要 / 🔵 改进），自动保存到 `reviews/` 目录。
 
 ### review-design-doc — 审查设计文档
 
-读取产品需求文档和开发设计文档，检查设计是否完整覆盖需求、接口是否规范、前后端是否一致。
+检查设计文档是否完整覆盖需求、接口是否规范、前后端是否一致。
 
-**调用方式：**
 ```
 /dev/review-design-doc <功能名称或文档路径>
 ```
 
-**示例：**
-- `/dev/review-design-doc financial-dashboard` — 按功能名称自动定位文档
-- `/dev/review-design-doc design.md requirement.md` — 指定多个文档
-
-**审查维度：**
-- 需求覆盖检查（功能点、业务规则、计算公式、异常场景）
-- 接口设计审查
-- 数据模型审查
-- 前后端一致性检查
-- UI 完整性审查
-- 文档质量检查
-
 **输出：** 包含需求覆盖矩阵的审查报告（🔴 严重 / 🟡 一般 / 🔵 建议），自动保存到 `reviews/` 目录。
+
+### team-all — 全流程串联
+
+一键启动产品、设计、开发、测试 4 个团队完成完整功能开发。
+
+```
+/team-all <功能名称>
+```
+
+### run-e2e-pipeline — 端到端流水线
+
+从需求材料出发，自动执行 9 步端到端开发工作流。
+
+```
+/run-e2e-pipeline <功能名称>
+```
 
 ## 规则系统
 
@@ -102,7 +154,7 @@ cc-skills/
 ├── .codex/             # Codex 支持（规划中）
 ├── .opencode/          # OpenCode 支持（规划中）
 ├── skills/             # 技能集合
-├── agents/             # Agent 定义（预留）
+├── agents/             # 13 个专业化 Agent 定义
 ├── rules/              # 编码规范和规则
 ├── hooks/              # 生命周期钩子
 ├── commands/           # 命令兼容层（预留）
