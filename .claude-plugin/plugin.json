@@ -9,22 +9,5 @@
   "homepage": "https://github.com/WenchaoChen1/cc-skills",
   "repository": "https://github.com/WenchaoChen1/cc-skills",
   "license": "MIT",
-  "keywords": ["skills", "review", "requirements", "design", "中文"],
-  "skills": ["./skills/"],
-  "agents": [
-    "./agents/arch-designer.md",
-    "./agents/arch-questioner.md",
-    "./agents/arch-reviewer.md",
-    "./agents/demo-researcher.md",
-    "./agents/dev-backend.md",
-    "./agents/dev-frontend.md",
-    "./agents/dev-reviewer.md",
-    "./agents/pm-questioner.md",
-    "./agents/pm-reviewer.md",
-    "./agents/pm-writer.md",
-    "./agents/qa-designer.md",
-    "./agents/qa-developer.md",
-    "./agents/qa-executor.md"
-  ],
-  "commands": ["./commands/"]
+  "keywords": ["skills", "review", "requirements", "design", "中文"]
 }
