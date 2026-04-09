@@ -1,0 +1,10 @@
+{
+  "name": "cc-skills",
+  "displayName": "CC Skills",
+  "description": "Claude Code 和 Cursor 的技能集合",
+  "version": "0.1.0",
+  "skills": "./skills/",
+  "agents": "./agents/",
+  "commands": "./commands/",
+  "hooks": "./hooks/hooks-cursor.json"
+}

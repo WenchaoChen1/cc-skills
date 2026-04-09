@@ -1,0 +1,16 @@
+{
+  "name": "cc-skills-marketplace",
+  "description": "cc-skills 技能集合的发布市场",
+  "owner": {
+    "name": "Wenchao Chen",
+    "url": "https://github.com/WenchaoChen1"
+  },
+  "plugins": [
+    {
+      "name": "cc-skills",
+      "description": "Claude Code 和 Cursor 的技能集合",
+      "version": "0.1.0",
+      "source": "./"
+    }
+  ]
+}
