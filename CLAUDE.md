@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目概述
 
-cc-skills 是一个 Claude Code / Cursor 插件项目，提供 20 个中文技能（skills）和 13 个 Agent。通过 marketplace 分发，用户安装后获得需求、设计、开发、测试全流程的 AI 辅助能力。
+cc-skills 是一个 Claude Code / Cursor 插件项目，提供 18 个中文技能（skills）和 12 个 Agent。通过 marketplace 分发，用户安装后获得需求、设计、开发、测试全流程的 AI 辅助能力。
 
 ## 版本管理
 
@@ -92,12 +92,7 @@ author: Wenchao Chen               # 可选
 |------|------|
 | [gen-design-doc](skills/gen-design-doc/SKILL.md) | 生成功能设计文档 |
 | [review-design-doc](skills/review-design-doc/SKILL.md) | 审查功能设计文档 |
-| [dev-code](skills/dev-code/SKILL.md) | **统一写代码入口**（自动检测技术栈） |
-| [dev-common](skills/dev-common/SKILL.md) | 开发公共规范 |
-| [dev-run](skills/dev-run/SKILL.md) | 智能调度器 |
-| [backend-java](skills/backend-java/SKILL.md) | Java 后端开发 |
-| [backend-python](skills/backend-python/SKILL.md) | Python 后端开发 |
-| [frontend](skills/frontend/SKILL.md) | 前端开发 |
+| [code](skills/code/SKILL.md) | 统一代码编写（含 Java/Python/前端） |
 | [hotfix](skills/hotfix/SKILL.md) | 快速修复 bug |
 | [review-implementation](skills/review-implementation/SKILL.md) | 审查代码实现闭环 |
 

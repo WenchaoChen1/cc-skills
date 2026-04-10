@@ -43,8 +43,8 @@ cd <前端项目> && npm run test -- --testPathPattern="xxx" --watchAll=false
 ## 修复协调
 
 将失败分析按归属分派：
-- 后端测试失败 → 发给 dev-backend（附错误信息 + 修复建议）
-- 前端测试失败 → 发给 dev-frontend（附错误信息 + 修复建议）
+- 后端测试失败 → 发给 coder（附错误信息 + 修复建议）
+- 前端测试失败 → 发给 coder（附错误信息 + 修复建议）
 
 Dev Team 修复后，重新运行测试（仅 1 轮）。
 

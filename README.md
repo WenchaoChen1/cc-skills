@@ -43,11 +43,7 @@ Codex、OpenCode 等平台的支持正在规划中，详见对应目录下的 `I
 |------|------|
 | gen-design-doc | 生成功能设计文档 |
 | review-design-doc | 审查功能设计文档 |
-| dev-common | 开发 skill 公共规范 |
-| dev-run | 智能调度器，自动检测技术栈分发开发 |
-| backend-java | Java 后端开发 |
-| backend-python | Python 后端开发 |
-| frontend | 前端开发 |
+| code | 统一代码编写（含 Java/Python/前端） |
 | hotfix | 快速修复 bug |
 | review-implementation | 审查代码实现闭环 |
 
@@ -84,16 +80,15 @@ Codex、OpenCode 等平台的支持正在规划中，详见对应目录下的 `I
 
 ## Agents
 
-13 个专业化 Agent，覆盖产品、设计、开发、测试四个团队：
+12 个专业化 Agent，覆盖产品、设计、开发、测试四个团队：
 
 | Agent | 用途 |
 |-------|------|
 | arch-designer | 设计编写 |
 | arch-questioner | 技术疑点收集 |
 | arch-reviewer | 设计审查 |
+| coder | 统一代码编写（自动检测技术栈） |
 | demo-researcher | 代码研究员 |
-| dev-backend | 后端开发 |
-| dev-frontend | 前端开发 |
 | dev-reviewer | 代码审查 |
 | pm-questioner | 需求疑点收集 |
 | pm-reviewer | 需求审查 |
@@ -168,7 +163,7 @@ cc-skills/
 ├── .codex/             # Codex 支持（规划中）
 ├── .opencode/          # OpenCode 支持（规划中）
 ├── skills/             # 技能集合
-├── agents/             # 13 个专业化 Agent 定义
+├── agents/             # 12 个专业化 Agent 定义
 ├── rules/              # 编码规范和规则
 ├── hooks/              # 生命周期钩子
 ├── commands/           # 命令兼容层（预留）
