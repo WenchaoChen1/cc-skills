@@ -56,22 +56,26 @@ author: Wenchao Chen
 ## 第零步：加载路径配置
 
 > **最先执行，不可跳过。后续所有路径从此配置获取。**
+> 详见 `config/README.md`。
 
-读取路径配置（详见 `config/README.md`），加载顺序：
+### 读取根变量
 
-1. `<project>/cc-cache-doc/cc-skills.json`（项目配置，最高优先级）
-2. `~/.cc-cache-doc/cc-skills.json`（个人配置）
-3. 插件 `config/defaults.json`（默认值）
+1. 读取 `<project>/cc-cache-doc/cc-skills.json` → 获取 `project_root`（默认 `cc-cache-doc`）
+2. 读取 `~/.cc-cache-doc/cc-skills.json` → 获取 `personal_root`（默认 `~/.cc-cache-doc`）
 
-合并后获得以下路径变量：
+### 拼接路径变量
 
-| 变量 | 默认值 |
-|------|--------|
-| `{features}` | `cc-cache-doc/features` |
-| `{rules}` | `cc-cache-doc/rules` |
-| `{standards}` | `cc-cache-doc/standards` |
-| `{personal_rules}` | `~/.cc-cache-doc/rules` |
-| `{personal_standards}` | `~/.cc-cache-doc/standards` |
+公式：`{根变量} / {固定变量} / 固定后缀`
+
+| 简写 | = 根变量 + 固定变量 |
+|------|---------------------|
+| `{features}` | `{project_root}` / `features` |
+| `{rules}` | `{project_root}` / `rules` |
+| `{standards}` | `{project_root}` / `standards` |
+| `{personal_rules}` | `{personal_root}` / `rules` |
+| `{personal_standards}` | `{personal_root}` / `standards` |
+
+使用时：`{features}/{name}/requirement/` = `{project_root}/features/{name}/requirement/`
 
 ### 功能目录识别
 

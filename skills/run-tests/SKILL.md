@@ -6,7 +6,7 @@ version: 1.0.0
 author: Wenchao Chen
 ---
 
-> **路径变量**：本 skill 使用 `config/defaults.json` 定义的路径变量。`{features}` 默认为 `cc-cache-doc/features`。详见 `config/README.md`。
+> **路径变量**：路径 = `{根变量}/{固定变量}/固定后缀`。根变量可配置（`project_root` / `personal_root`），其余固定。详见 `config/README.md`。
 
 # 执行测试并报告
 

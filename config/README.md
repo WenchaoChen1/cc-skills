@@ -1,114 +1,113 @@
 # 路径配置
 
-## 概述
-
-cc-skills 的所有 skill 通过统一的路径变量引用文件位置，不硬编码路径。用户可以在个人级和项目级覆盖默认路径。
-
-## 变量列表
-
-| 变量 | 默认值 | 说明 |
-|------|--------|------|
-| `{features}` | `cc-cache-doc/features` | 功能目录（需求/设计/测试） |
-| `{rules}` | `cc-cache-doc/rules` | 项目规则 |
-| `{standards}` | `cc-cache-doc/standards` | 项目规范 |
-| `{personal_rules}` | `~/.cc-cache-doc/rules` | 个人规则 |
-| `{personal_standards}` | `~/.cc-cache-doc/standards` | 个人规范 |
-
-## 固定子目录（不可配置）
-
-`{features}/{name}/` 下的子目录结构是固定约定：
+## 路径公式
 
 ```
-{features}/{name}/
-├── requirement/        ← 需求文档
-├── dev-design/         ← 设计文档
-├── reviews/            ← 审查报告
-├── user-test/          ← 手动测试文档
-└── unit-test/          ← 自动化测试代码
+{根变量} / {固定变量} / 固定后缀
 ```
 
-## 配置加载优先级
+- **根变量**：用户可配置（`project_root`、`personal_root`）
+- **固定变量**：不可配置（`features`、`rules`、`standards`）
+- **固定后缀**：不可配置（`requirement/`、`dev-design/` 等）
+
+**插件安装时自动创建个人配置目录**（通过 SessionStart hook）。
+
+## 根变量（仅此可配置）
+
+| 根变量 | 默认值 | 配置位置 |
+|--------|--------|---------|
+| `project_root` | `cc-cache-doc` | `<project>/cc-cache-doc/cc-skills.json` |
+| `personal_root` | `~/.cc-cache-doc` | `~/.cc-cache-doc/cc-skills.json` |
+
+## 完整路径解析
+
+### 项目级路径
+
+| 路径 | = 根变量 / 固定变量 / 固定后缀 |
+|------|-------------------------------|
+| `{project_root}/features/{name}/requirement/` | 需求文档 |
+| `{project_root}/features/{name}/dev-design/` | 设计文档 |
+| `{project_root}/features/{name}/reviews/` | 审查报告 |
+| `{project_root}/features/{name}/user-test/` | 手动测试文档 |
+| `{project_root}/features/{name}/unit-test/` | 自动化测试代码 |
+| `{project_root}/rules/` | 项目规则 |
+| `{project_root}/standards/` | 项目规范 |
+
+### 个人级路径
+
+| 路径 | = 根变量 / 固定变量 |
+|------|---------------------|
+| `{personal_root}/rules/` | 个人规则 |
+| `{personal_root}/standards/` | 个人规范 |
+
+## 目录结构
+
+### 项目级
 
 ```
-项目配置（最高） > 个人配置 > 插件默认值（最低）
+{project_root}/                     ← 根变量（可配置）
+├── cc-skills.json                  ← 配置文件
+├── features/                       ← 固定变量
+│   └── {name}/                     ← 功能名称（用户传入）
+│       ├── requirement/            ← 固定后缀
+│       ├── dev-design/             ← 固定后缀
+│       ├── reviews/                ← 固定后缀
+│       ├── user-test/              ← 固定后缀
+│       └── unit-test/              ← 固定后缀
+├── rules/                          ← 固定变量
+└── standards/                      ← 固定变量
 ```
 
-| 优先级 | 配置文件位置 |
-|--------|-------------|
-| 1（最高） | `<project>/cc-cache-doc/cc-skills.json` |
-| 2 | `~/.cc-cache-doc/cc-skills.json` |
-| 3（最低） | 本目录 `defaults.json` |
+### 个人级
+
+```
+{personal_root}/                    ← 根变量（可配置）
+├── cc-skills.json                  ← 配置文件
+├── rules/                          ← 固定变量
+└── standards/                      ← 固定变量
+```
 
 ## 配置文件格式
 
-只需写要覆盖的字段，未写的自动使用默认值。
-
-**项目配置**（`<project>/cc-cache-doc/cc-skills.json`）：
+cc-skills.json 只配根变量：
 
 ```json
 {
-  "project": {
-    "features": "cc-cache-doc/features",
-    "rules": "cc-cache-doc/rules",
-    "standards": "cc-cache-doc/standards"
-  }
+  "project_root": "cc-cache-doc",
+  "personal_root": "~/.cc-cache-doc"
 }
 ```
 
-**个人配置**（`~/.cc-cache-doc/cc-skills.json`）：
+改 `project_root` 为 `docs` → 所有路径自动变为 `docs/features/...`、`docs/rules/` 等。
 
-```json
-{
-  "personal": {
-    "rules": "~/.cc-cache-doc/rules",
-    "standards": "~/.cc-cache-doc/standards"
-  }
-}
+## Skills 中的简写变量
+
+为简化 skill 中的路径引用，定义以下简写：
+
+| 简写 | 实际路径 |
+|------|---------|
+| `{features}` | `{project_root}/features` |
+| `{rules}` | `{project_root}/rules` |
+| `{standards}` | `{project_root}/standards` |
+| `{personal_rules}` | `{personal_root}/rules` |
+| `{personal_standards}` | `{personal_root}/standards` |
+
+## 加载优先级
+
+```
+项目配置（最高） > 个人配置（最低）
 ```
 
-## 初始化
+## 自动安装
 
-### 项目初始化
+SessionStart hook 每次会话启动时自动检查并创建：
 
-在目标项目中创建 `cc-cache-doc/` 目录：
+1. `~/.cc-cache-doc/` 目录
+2. `~/.cc-cache-doc/cc-skills.json` 默认配置
+3. `~/.cc-cache-doc/rules/` 和 `~/.cc-cache-doc/standards/` 目录
 
-```bash
-mkdir -p cc-cache-doc/features cc-cache-doc/rules cc-cache-doc/standards
-```
-
-如需自定义路径，创建配置文件：
-
-```bash
-cat > cc-cache-doc/cc-skills.json << 'EOF'
-{
-  "project": {
-    "features": "cc-cache-doc/features",
-    "rules": "cc-cache-doc/rules",
-    "standards": "cc-cache-doc/standards"
-  }
-}
-EOF
-```
-
-### 个人初始化
-
-```bash
-mkdir -p ~/.cc-cache-doc/rules ~/.cc-cache-doc/standards
-```
-
-如需自定义路径，创建配置文件：
-
-```bash
-cat > ~/.cc-cache-doc/cc-skills.json << 'EOF'
-{
-  "personal": {
-    "rules": "~/.cc-cache-doc/rules",
-    "standards": "~/.cc-cache-doc/standards"
-  }
-}
-EOF
-```
+项目级目录由 skill 执行时按需创建。
 
 ## 兼容性
 
-`~/.cc-cache-doc/` 是独立目录，不在任何 IDE 特定目录下。Claude Code、Cursor、Codex 等工具共享同一份配置。
+`~/.cc-cache-doc/` 独立于 `~/.claude/`、`~/.cursor/` 等 IDE 目录。Claude Code、Cursor、Codex 等所有工具共享同一份配置。
