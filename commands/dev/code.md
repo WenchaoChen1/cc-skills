@@ -1,6 +1,6 @@
 # 写代码
 
-调用 dev-code 技能，使用 dev-coder agent 执行。
+调用 code 技能，使用 coder agent 执行。等同于 `/code`。
 
 自动检测技术栈（Java/Python/前端），加载公共规范，根据设计文档完成代码编写。
 

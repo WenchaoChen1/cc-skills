@@ -140,7 +140,7 @@ author: Wenchao Chen               # 可选
 | [arch-questioner](agents/arch-questioner.md) | 技术疑点收集 |
 | [arch-reviewer](agents/arch-reviewer.md) | 设计审查 |
 | [demo-researcher](agents/demo-researcher.md) | 代码研究员 |
-| [dev-coder](agents/dev-coder.md) | 统一代码编写（自动检测技术栈） |
+| [coder](agents/coder.md) | 统一代码编写（自动检测技术栈） |
 | [dev-reviewer](agents/dev-reviewer.md) | 代码审查 |
 | [pm-questioner](agents/pm-questioner.md) | 需求疑点收集 |
 | [pm-reviewer](agents/pm-reviewer.md) | 需求审查 |

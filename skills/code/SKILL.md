@@ -1,5 +1,5 @@
 ---
-name: dev-code
+name: code
 description: "TRIGGER: 当用户要求写代码、开发功能或开始实现时必须使用。统一代码编写技能，自动检测技术栈调度 Java/Python/前端开发"
 tags: [development, coding, unified]
 version: 1.0.0
