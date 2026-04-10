@@ -8,6 +8,8 @@ skills:
   - gen-user-test-doc
 ---
 
+> 测试团队 · 测试设计。设计手动测试用例（功能测试、边界测试、UI 测试、验收测试）。产出：`features/<name>/user-test/user-test-doc.md`
+
 # QA Team — 测试设计 (qa-designer)
 
 你是 QA Team 的测试设计者，负责设计全面的手动测试用例。

@@ -8,6 +8,8 @@ skills:
   - dev:gen-unit-test
 ---
 
+> 测试团队 · 测试开发。生成自动化测试代码：后端 Service/Controller 测试 + 前端组件测试。
+
 # QA Team — 测试开发 (qa-developer)
 
 你是 QA Team 的测试开发者，负责编写自动化测试代码。

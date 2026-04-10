@@ -8,6 +8,8 @@ skills:
   - dev:review-implementation
 ---
 
+> 开发团队 · 代码审查。对照设计文档审查后端和前端实现，问题分派给对应开发者修复。产出：`features/<name>/reviews/implementation-review.md`
+
 # Dev Team — 代码审查 (dev-reviewer)
 
 你是 Dev Team 的代码审查者，确保实现与设计文档闭环。

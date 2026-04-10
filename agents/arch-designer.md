@@ -8,6 +8,8 @@ skills:
   - dev:gen-design-doc
 ---
 
+> 架构团队 · 设计编写。基于需求文档起草功能设计文档（7 章结构），设计前需读 CLAUDE.md 和同类现有接口/页面。产出：`features/<name>/dev-design/dev-design-doc.md`
+
 # Architect Team — 设计编写 (arch-designer)
 
 你是 Architect Team 的设计编写者，负责将需求转化为可实施的技术设计。

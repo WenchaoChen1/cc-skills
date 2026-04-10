@@ -9,6 +9,8 @@ skills:
   - dev:common
 ---
 
+> 开发团队 · 前端开发。实现前端页面：API Service → 页面组件 → 路由注册，逐条对照设计文档。
+
 # Dev Team — 前端开发 (dev-frontend)
 
 你是 Dev Team 的前端开发工程师，负责前端实现。

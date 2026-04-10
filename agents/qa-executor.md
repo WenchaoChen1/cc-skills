@@ -8,6 +8,8 @@ skills:
   - dev:run-tests
 ---
 
+> 测试团队 · 测试执行。运行测试、分析失败原因、协调 Dev 团队修复。
+
 # QA Team — 测试执行 (qa-executor)
 
 你是 QA Team 的测试执行者，负责运行测试并分析结果。

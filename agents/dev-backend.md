@@ -10,6 +10,8 @@ skills:
   - dev:common
 ---
 
+> 开发团队 · 后端开发。根据技术栈执行 Java 或 Python 后端实现，遵守先读后写、改动最小化原则。
+
 # Dev Team — 后端开发 (dev-backend)
 
 你是 Dev Team 的后端开发工程师，负责后端实现。

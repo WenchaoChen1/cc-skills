@@ -8,23 +8,37 @@
 
 ```
 rules/
-├── README.md          # 本说明文件
-└── common/            # 语言无关的通用规则
-    ├── coding-style.md    # 编码风格
-    ├── git-workflow.md    # Git 工作流
-    └── security.md        # 安全规范
+├── README.md              # 本说明文件
+├── common/                # 语言无关的通用规则
+│   ├── coding-style.md        # 编码风格
+│   ├── git-workflow.md        # Git 工作流
+│   └── security.md            # 安全规范
+└── lg/                    # LG (CIOaaS) 项目特定规则
+    ├── README.md              # LG 规则说明
+    ├── api-architecture.md    # API（Java）架构规范
+    ├── api-coding.md          # API（Java）代码规范
+    ├── api-git.md             # API Git 规范
+    ├── web-architecture.md    # Web（React）架构规范
+    ├── web-coding.md          # Web（React）代码规范
+    ├── web-git.md             # Web Git 规范
+    ├── python-architecture.md # Python 架构规范
+    ├── python-coding.md       # Python 代码规范
+    ├── python-git.md          # Python Git 规范
+    └── mcp-tools.md           # MCP 工具使用规则
 ```
 
 - **common/** — 语言无关的通用规则，适用于所有项目
+- **lg/** — LG (CIOaaS) 项目特定规则，包含 API（Java）、Web（React）、Python 三个子项目的架构、编码、Git 规范及 MCP 工具使用规则
 - 未来可扩展语言特定目录，例如 `typescript/`、`python/`、`go/` 等
 
 ## 优先级
 
 规则按以下优先级生效（高优先级覆盖低优先级）：
 
-1. **语言特定规则**（如 `typescript/`）— 最高优先级
-2. **通用规则**（`common/`）— 次优先级
-3. **默认行为** — AI 模型内置的编码习惯
+1. **项目特定规则**（如 `lg/`）— 最高优先级
+2. **语言特定规则**（如 `typescript/`）— 次高优先级
+3. **通用规则**（`common/`）— 次优先级
+4. **默认行为** — AI 模型内置的编码习惯
 
 ## 如何添加新规则
 
