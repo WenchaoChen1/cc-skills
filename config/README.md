@@ -4,7 +4,7 @@
 
 | 层 | 可为空 | 说明 |
 |----|--------|------|
-| 基础路径 | 不可 | `<project>` 或 `~`，隐含 |
+| 基础路径 | 不可 | `<project>`（当前工作目录）或 `~`（用户 home），自动获取 |
 | 根变量 | ✅ | `project_root` / `personal_root` |
 | 可配变量 | ✅ | `features` / `rules` / `standards` |
 | {name} | - | 功能名称，用户传入 |
