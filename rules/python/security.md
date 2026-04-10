@@ -3,11 +3,11 @@ paths:
   - "**/*.py"
   - "**/*.pyi"
 ---
-# Python Security
+# Python 安全
 
-> This file extends [common/security.md](../common/security.md) with Python specific content.
+> 本文件扩展了 [common/security.md](../common/security.md)，补充 Python 特定内容。
 
-## Secret Management
+## 密钥管理
 
 ```python
 import os
@@ -18,13 +18,13 @@ load_dotenv()
 api_key = os.environ["OPENAI_API_KEY"]  # Raises KeyError if missing
 ```
 
-## Security Scanning
+## 安全扫描
 
-- Use **bandit** for static security analysis:
+- 使用 **bandit** 进行静态安全分析：
   ```bash
   bandit -r src/
   ```
 
-## Reference
+## 参考
 
-See skill: `django-security` for Django-specific security guidelines (if applicable).
+参见技能：`django-security` 获取 Django 特定的安全指南（如适用）。

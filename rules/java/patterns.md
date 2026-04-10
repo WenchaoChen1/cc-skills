@@ -2,13 +2,13 @@
 paths:
   - "**/*.java"
 ---
-# Java Patterns
+# Java 设计模式
 
-> This file extends [common/patterns.md](../common/patterns.md) with Java-specific content.
+> 本文件扩展了 [common/patterns.md](../common/patterns.md)，补充 Java 特有的内容。
 
-## Repository Pattern
+## Repository 模式
 
-Encapsulate data access behind an interface:
+将数据访问封装在接口背后：
 
 ```java
 public interface OrderRepository {
@@ -19,11 +19,11 @@ public interface OrderRepository {
 }
 ```
 
-Concrete implementations handle storage details (JPA, JDBC, in-memory for tests).
+具体实现处理存储细节（JPA、JDBC、用于测试的内存实现）。
 
-## Service Layer
+## Service 层
 
-Business logic in service classes; keep controllers and repositories thin:
+业务逻辑放在 Service 类中；保持 Controller 和 Repository 精简：
 
 ```java
 public class OrderService {
@@ -44,9 +44,9 @@ public class OrderService {
 }
 ```
 
-## Constructor Injection
+## 构造器注入
 
-Always use constructor injection — never field injection:
+始终使用构造器注入 —— 绝不使用字段注入：
 
 ```java
 // GOOD — constructor injection (testable, immutable)
@@ -65,9 +65,9 @@ public class NotificationService {
 }
 ```
 
-## DTO Mapping
+## DTO 映射
 
-Use records for DTOs. Map at service/controller boundaries:
+使用 record 作为 DTO。在 Service/Controller 边界进行映射：
 
 ```java
 public record OrderResponse(Long id, String customer, BigDecimal total) {
@@ -77,9 +77,9 @@ public record OrderResponse(Long id, String customer, BigDecimal total) {
 }
 ```
 
-## Builder Pattern
+## Builder 模式
 
-Use for objects with many optional parameters:
+用于具有多个可选参数的对象：
 
 ```java
 public class SearchCriteria {
@@ -110,7 +110,7 @@ public class SearchCriteria {
 }
 ```
 
-## Sealed Types for Domain Models
+## Sealed 类型用于领域模型
 
 ```java
 public sealed interface PaymentResult permits PaymentSuccess, PaymentFailure {
@@ -125,9 +125,9 @@ String message = switch (result) {
 };
 ```
 
-## API Response Envelope
+## API 响应封装
 
-Consistent API responses:
+统一的 API 响应格式：
 
 ```java
 public record ApiResponse<T>(boolean success, T data, String error) {
@@ -140,7 +140,7 @@ public record ApiResponse<T>(boolean success, T data, String error) {
 }
 ```
 
-## References
+## 参考资料
 
-See skill: `springboot-patterns` for Spring Boot architecture patterns.
-See skill: `jpa-patterns` for entity design and query optimization.
+参见技能：`springboot-patterns` 获取 Spring Boot 架构模式。
+参见技能：`jpa-patterns` 获取实体设计和查询优化。

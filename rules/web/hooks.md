@@ -1,14 +1,14 @@
-> This file extends [common/hooks.md](../common/hooks.md) with web-specific hook recommendations.
+> 本文件扩展 [common/hooks.md](../common/hooks.md)，补充 Web 特定的 Hook 建议。
 
 # Web Hooks
 
-## Recommended PostToolUse Hooks
+## 推荐的 PostToolUse Hooks
 
-Prefer project-local tooling. Do not wire hooks to remote one-off package execution.
+优先使用项目本地工具链。不要将 Hooks 绑定到远程的一次性包执行。
 
-### Format on Save
+### 保存时格式化
 
-Use the project's existing formatter entrypoint after edits:
+编辑后使用项目现有的格式化工具入口：
 
 ```json
 {
@@ -24,9 +24,9 @@ Use the project's existing formatter entrypoint after edits:
 }
 ```
 
-Equivalent local commands via `yarn prettier` or `npm exec prettier --` are fine when they use repo-owned dependencies.
+使用仓库自有依赖时，通过 `yarn prettier` 或 `npm exec prettier --` 执行的等效本地命令同样可行。
 
-### Lint Check
+### Lint 检查
 
 ```json
 {
@@ -42,7 +42,7 @@ Equivalent local commands via `yarn prettier` or `npm exec prettier --` are fine
 }
 ```
 
-### Type Check
+### 类型检查
 
 ```json
 {
@@ -76,9 +76,9 @@ Equivalent local commands via `yarn prettier` or `npm exec prettier --` are fine
 
 ## PreToolUse Hooks
 
-### Guard File Size
+### 文件大小守卫
 
-Block oversized writes from tool input content, not from a file that may not exist yet:
+阻止工具输入内容中的超大写入操作，而非检查可能尚不存在的文件：
 
 ```json
 {
@@ -96,7 +96,7 @@ Block oversized writes from tool input content, not from a file that may not exi
 
 ## Stop Hooks
 
-### Final Build Verification
+### 最终构建验证
 
 ```json
 {
@@ -111,10 +111,10 @@ Block oversized writes from tool input content, not from a file that may not exi
 }
 ```
 
-## Ordering
+## 执行顺序
 
-Recommended order:
-1. format
+推荐顺序：
+1. 格式化
 2. lint
-3. type check
-4. build verification
+3. 类型检查
+4. 构建验证

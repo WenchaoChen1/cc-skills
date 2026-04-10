@@ -5,14 +5,14 @@ paths:
   - "**/build.gradle"
   - "**/build.gradle.kts"
 ---
-# Java Hooks
+# Java 钩子
 
-> This file extends [common/hooks.md](../common/hooks.md) with Java-specific content.
+> 本文件扩展了 [common/hooks.md](../common/hooks.md)，补充 Java 特有的内容。
 
-## PostToolUse Hooks
+## PostToolUse 钩子
 
-Configure in `~/.claude/settings.json`:
+在 `~/.claude/settings.json` 中配置：
 
-- **google-java-format**: Auto-format `.java` files after edit
-- **checkstyle**: Run style checks after editing Java files
-- **./mvnw compile** or **./gradlew compileJava**: Verify compilation after changes
+- **google-java-format**：编辑后自动格式化 `.java` 文件
+- **checkstyle**：编辑 Java 文件后运行代码风格检查
+- **./mvnw compile** 或 **./gradlew compileJava**：修改后验证编译是否通过

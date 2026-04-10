@@ -2,16 +2,16 @@
 paths:
   - "**/*.java"
 ---
-# Java Security
+# Java 安全规范
 
-> This file extends [common/security.md](../common/security.md) with Java-specific content.
+> 本文件扩展了 [common/security.md](../common/security.md)，补充 Java 特有的内容。
 
-## Secrets Management
+## 密钥管理
 
-- Never hardcode API keys, tokens, or credentials in source code
-- Use environment variables: `System.getenv("API_KEY")`
-- Use a secret manager (Vault, AWS Secrets Manager) for production secrets
-- Keep local config files with secrets in `.gitignore`
+- 绝不在源代码中硬编码 API 密钥、令牌或凭证
+- 使用环境变量：`System.getenv("API_KEY")`
+- 生产环境使用密钥管理器（Vault、AWS Secrets Manager）
+- 将包含密钥的本地配置文件加入 `.gitignore`
 
 ```java
 // BAD
@@ -22,11 +22,11 @@ String apiKey = System.getenv("PAYMENT_API_KEY");
 Objects.requireNonNull(apiKey, "PAYMENT_API_KEY must be set");
 ```
 
-## SQL Injection Prevention
+## SQL 注入防护
 
-- Always use parameterized queries — never concatenate user input into SQL
-- Use `PreparedStatement` or your framework's parameterized query API
-- Validate and sanitize any input used in native queries
+- 始终使用参数化查询 —— 绝不将用户输入拼接到 SQL 中
+- 使用 `PreparedStatement` 或框架提供的参数化查询 API
+- 对原生查询中使用的任何输入进行验证和清洗
 
 ```java
 // BAD — SQL injection via string concatenation
@@ -42,12 +42,12 @@ ps.setString(1, name);
 jdbcTemplate.query("SELECT * FROM orders WHERE name = ?", mapper, name);
 ```
 
-## Input Validation
+## 输入验证
 
-- Validate all user input at system boundaries before processing
-- Use Bean Validation (`@NotNull`, `@NotBlank`, `@Size`) on DTOs when using a validation framework
-- Sanitize file paths and user-provided strings before use
-- Reject input that fails validation with clear error messages
+- 在系统边界处理之前验证所有用户输入
+- 使用验证框架时，在 DTO 上使用 Bean Validation（`@NotNull`、`@NotBlank`、`@Size`）
+- 在使用前清洗文件路径和用户提供的字符串
+- 对验证失败的输入返回明确的错误消息
 
 ```java
 // Validate manually in plain Java
@@ -62,24 +62,24 @@ public Order createOrder(String customerName, BigDecimal amount) {
 }
 ```
 
-## Authentication and Authorization
+## 认证与授权
 
-- Never implement custom auth crypto — use established libraries
-- Store passwords with bcrypt or Argon2, never MD5/SHA1
-- Enforce authorization checks at service boundaries
-- Clear sensitive data from logs — never log passwords, tokens, or PII
+- 绝不自行实现加密算法 —— 使用成熟的库
+- 使用 bcrypt 或 Argon2 存储密码，绝不使用 MD5/SHA1
+- 在 Service 边界强制执行授权检查
+- 从日志中清除敏感数据 —— 绝不记录密码、令牌或个人身份信息
 
-## Dependency Security
+## 依赖安全
 
-- Run `mvn dependency:tree` or `./gradlew dependencies` to audit transitive dependencies
-- Use OWASP Dependency-Check or Snyk to scan for known CVEs
-- Keep dependencies updated — set up Dependabot or Renovate
+- 运行 `mvn dependency:tree` 或 `./gradlew dependencies` 审计传递性依赖
+- 使用 OWASP Dependency-Check 或 Snyk 扫描已知 CVE
+- 保持依赖更新 —— 配置 Dependabot 或 Renovate
 
-## Error Messages
+## 错误消息
 
-- Never expose stack traces, internal paths, or SQL errors in API responses
-- Map exceptions to safe, generic client messages at handler boundaries
-- Log detailed errors server-side; return generic messages to clients
+- 绝不在 API 响应中暴露堆栈跟踪、内部路径或 SQL 错误
+- 在处理器边界将异常映射为安全、通用的客户端消息
+- 在服务端记录详细错误；向客户端返回通用消息
 
 ```java
 // Log the detail, return a generic message
@@ -94,7 +94,7 @@ try {
 }
 ```
 
-## References
+## 参考资料
 
-See skill: `springboot-security` for Spring Security authentication and authorization patterns.
-See skill: `security-review` for general security checklists.
+参见技能：`springboot-security` 获取 Spring Security 认证和授权模式。
+参见技能：`security-review` 获取通用安全检查清单。

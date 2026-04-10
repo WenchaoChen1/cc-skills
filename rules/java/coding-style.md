@@ -2,23 +2,23 @@
 paths:
   - "**/*.java"
 ---
-# Java Coding Style
+# Java 编码风格
 
-> This file extends [common/coding-style.md](../common/coding-style.md) with Java-specific content.
+> 本文件扩展了 [common/coding-style.md](../common/coding-style.md)，补充 Java 特有的内容。
 
-## Formatting
+## 格式化
 
-- **google-java-format** or **Checkstyle** (Google or Sun style) for enforcement
-- One public top-level type per file
-- Consistent indent: 2 or 4 spaces (match project standard)
-- Member order: constants, fields, constructors, public methods, protected, private
+- 使用 **google-java-format** 或 **Checkstyle**（Google 或 Sun 风格）进行规范执行
+- 每个文件只包含一个公共顶层类型
+- 一致的缩进：2 或 4 个空格（与项目标准保持一致）
+- 成员排列顺序：常量、字段、构造方法、公共方法、受保护方法、私有方法
 
-## Immutability
+## 不可变性
 
-- Prefer `record` for value types (Java 16+)
-- Mark fields `final` by default — use mutable state only when required
-- Return defensive copies from public APIs: `List.copyOf()`, `Map.copyOf()`, `Set.copyOf()`
-- Copy-on-write: return new instances rather than mutating existing ones
+- 值类型优先使用 `record`（Java 16+）
+- 默认将字段标记为 `final` —— 仅在确实需要时才使用可变状态
+- 公共 API 返回防御性副本：`List.copyOf()`、`Map.copyOf()`、`Set.copyOf()`
+- 写时复制：返回新实例而非修改现有实例
 
 ```java
 // GOOD — immutable value type
@@ -35,23 +35,23 @@ public class Order {
 }
 ```
 
-## Naming
+## 命名
 
-Follow standard Java conventions:
-- `PascalCase` for classes, interfaces, records, enums
-- `camelCase` for methods, fields, parameters, local variables
-- `SCREAMING_SNAKE_CASE` for `static final` constants
-- Packages: all lowercase, reverse domain (`com.example.app.service`)
+遵循标准 Java 命名规范：
+- `PascalCase` 用于类、接口、record、枚举
+- `camelCase` 用于方法、字段、参数、局部变量
+- `SCREAMING_SNAKE_CASE` 用于 `static final` 常量
+- 包名：全部小写，反向域名（`com.example.app.service`）
 
-## Modern Java Features
+## 现代 Java 特性
 
-Use modern language features where they improve clarity:
-- **Records** for DTOs and value types (Java 16+)
-- **Sealed classes** for closed type hierarchies (Java 17+)
-- **Pattern matching** with `instanceof` — no explicit cast (Java 16+)
-- **Text blocks** for multi-line strings — SQL, JSON templates (Java 15+)
-- **Switch expressions** with arrow syntax (Java 14+)
-- **Pattern matching in switch** — exhaustive sealed type handling (Java 21+)
+在能提升代码清晰度的地方使用现代语言特性：
+- **Records** 用于 DTO 和值类型（Java 16+）
+- **Sealed classes** 用于封闭类型层次结构（Java 17+）
+- **Pattern matching** 配合 `instanceof` —— 无需显式类型转换（Java 16+）
+- **Text blocks** 用于多行字符串 —— SQL、JSON 模板（Java 15+）
+- **Switch expressions** 使用箭头语法（Java 14+）
+- **Pattern matching in switch** —— 对 sealed 类型进行穷举处理（Java 21+）
 
 ```java
 // Pattern matching instanceof
@@ -70,11 +70,11 @@ String label = switch (status) {
 };
 ```
 
-## Optional Usage
+## Optional 使用规范
 
-- Return `Optional<T>` from finder methods that may have no result
-- Use `map()`, `flatMap()`, `orElseThrow()` — never call `get()` without `isPresent()`
-- Never use `Optional` as a field type or method parameter
+- 对于可能无结果的查找方法，返回 `Optional<T>`
+- 使用 `map()`、`flatMap()`、`orElseThrow()` —— 绝不在未调用 `isPresent()` 的情况下调用 `get()`
+- 绝不将 `Optional` 用作字段类型或方法参数
 
 ```java
 // GOOD
@@ -86,12 +86,12 @@ return repository.findById(id)
 public void process(Optional<String> name) {}
 ```
 
-## Error Handling
+## 错误处理
 
-- Prefer unchecked exceptions for domain errors
-- Create domain-specific exceptions extending `RuntimeException`
-- Avoid broad `catch (Exception e)` unless at top-level handlers
-- Include context in exception messages
+- 领域错误优先使用非受检异常
+- 创建继承 `RuntimeException` 的领域特定异常类
+- 避免宽泛的 `catch (Exception e)`，除非在顶层处理器中
+- 异常消息中包含上下文信息
 
 ```java
 public class OrderNotFoundException extends RuntimeException {
@@ -101,14 +101,14 @@ public class OrderNotFoundException extends RuntimeException {
 }
 ```
 
-## Streams
+## Stream 使用规范
 
-- Use streams for transformations; keep pipelines short (3-4 operations max)
-- Prefer method references when readable: `.map(Order::getTotal)`
-- Avoid side effects in stream operations
-- For complex logic, prefer a loop over a convoluted stream pipeline
+- 使用 Stream 进行数据转换；保持管道简短（最多 3-4 个操作）
+- 在可读性良好时优先使用方法引用：`.map(Order::getTotal)`
+- 避免在 Stream 操作中产生副作用
+- 对于复杂逻辑，优先使用循环而非复杂的 Stream 管道
 
-## References
+## 参考资料
 
-See skill: `java-coding-standards` for full coding standards with examples.
-See skill: `jpa-patterns` for JPA/Hibernate entity design patterns.
+参见技能：`java-coding-standards` 获取包含示例的完整编码标准。
+参见技能：`jpa-patterns` 获取 JPA/Hibernate 实体设计模式。

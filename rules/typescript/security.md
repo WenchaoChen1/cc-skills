@@ -5,11 +5,11 @@ paths:
   - "**/*.js"
   - "**/*.jsx"
 ---
-# TypeScript/JavaScript Security
+# TypeScript/JavaScript 安全
 
-> This file extends [common/security.md](../common/security.md) with TypeScript/JavaScript specific content.
+> 本文件扩展了 [common/security.md](../common/security.md)，补充 TypeScript/JavaScript 的特定内容。
 
-## Secret Management
+## 密钥管理
 
 ```typescript
 // NEVER: Hardcoded secrets
@@ -23,6 +23,6 @@ if (!apiKey) {
 }
 ```
 
-## Agent Support
+## Agent 支持
 
-- Use **security-reviewer** skill for comprehensive security audits
+- 使用 **security-reviewer** 技能进行全面的安全审计

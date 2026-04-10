@@ -1,64 +1,64 @@
-> This file extends [common/performance.md](../common/performance.md) with web-specific performance content.
+> 本文件扩展 [common/performance.md](../common/performance.md)，补充 Web 特定的性能内容。
 
-# Web Performance Rules
+# Web 性能规则
 
-## Core Web Vitals Targets
+## Core Web Vitals 目标
 
-| Metric | Target |
-|--------|--------|
+| 指标 | 目标值 |
+|------|--------|
 | LCP | < 2.5s |
 | INP | < 200ms |
 | CLS | < 0.1 |
 | FCP | < 1.5s |
 | TBT | < 200ms |
 
-## Bundle Budget
+## 包体积预算
 
-| Page Type | JS Budget (gzipped) | CSS Budget |
-|-----------|---------------------|------------|
-| Landing page | < 150kb | < 30kb |
-| App page | < 300kb | < 50kb |
-| Microsite | < 80kb | < 15kb |
+| 页面类型 | JS 预算（gzipped） | CSS 预算 |
+|----------|---------------------|----------|
+| 落地页 | < 150kb | < 30kb |
+| 应用页 | < 300kb | < 50kb |
+| 微站点 | < 80kb | < 15kb |
 
-## Loading Strategy
+## 加载策略
 
-1. Inline critical above-the-fold CSS where justified
-2. Preload the hero image and primary font only
-3. Defer non-critical CSS or JS
-4. Dynamically import heavy libraries
+1. 在合理情况下内联首屏关键 CSS
+2. 仅预加载首屏图片和主字体
+3. 延迟加载非关键 CSS 或 JS
+4. 动态导入大型库
 
 ```js
 const gsapModule = await import('gsap');
 const { ScrollTrigger } = await import('gsap/ScrollTrigger');
 ```
 
-## Image Optimization
+## 图片优化
 
-- Explicit `width` and `height`
-- `loading="eager"` plus `fetchpriority="high"` for hero media only
-- `loading="lazy"` for below-the-fold assets
-- Prefer AVIF or WebP with fallbacks
-- Never ship source images far beyond rendered size
+- 显式设置 `width` 和 `height`
+- 仅对首屏媒体资源使用 `loading="eager"` 加 `fetchpriority="high"`
+- 对首屏以下资源使用 `loading="lazy"`
+- 优先使用 AVIF 或 WebP 格式并提供回退方案
+- 切勿提供远超渲染尺寸的源图片
 
-## Font Loading
+## 字体加载
 
-- Max two font families unless there is a clear exception
-- `font-display: swap`
-- Subset where possible
-- Preload only the truly critical weight/style
+- 最多使用两个字体族，除非有明确的例外理由
+- 使用 `font-display: swap`
+- 尽可能使用子集化
+- 仅预加载真正关键的字重/样式
 
-## Animation Performance
+## 动画性能
 
-- Animate compositor-friendly properties only
-- Use `will-change` narrowly and remove it when done
-- Prefer CSS for simple transitions
-- Use `requestAnimationFrame` or established animation libraries for JS motion
-- Avoid scroll handler churn; use IntersectionObserver or well-behaved libraries
+- 仅对合成器友好的属性做动画
+- 谨慎使用 `will-change`，完成后移除
+- 简单过渡优先使用 CSS
+- JS 动画使用 `requestAnimationFrame` 或成熟的动画库
+- 避免滚动事件处理器的频繁触发；使用 IntersectionObserver 或行为良好的库
 
-## Performance Checklist
+## 性能检查清单
 
-- [ ] All images have explicit dimensions
-- [ ] No accidental render-blocking resources
-- [ ] No layout shifts from dynamic content
-- [ ] Motion stays on compositor-friendly properties
-- [ ] Third-party scripts load async/defer and only when needed
+- [ ] 所有图片都有显式尺寸
+- [ ] 没有意外的渲染阻塞资源
+- [ ] 没有因动态内容导致的布局偏移
+- [ ] 动效仅使用合成器友好的属性
+- [ ] 第三方脚本使用 async/defer 加载且仅在需要时加载

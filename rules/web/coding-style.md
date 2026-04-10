@@ -1,10 +1,10 @@
-> This file extends [common/coding-style.md](../common/coding-style.md) with web-specific frontend content.
+> 本文件扩展 [common/coding-style.md](../common/coding-style.md)，补充 Web 前端特定内容。
 
-# Web Coding Style
+# Web 编码风格
 
-## File Organization
+## 文件组织
 
-Organize by feature or surface area, not by file type:
+按功能或界面区域组织，而非按文件类型：
 
 ```text
 src/
@@ -33,9 +33,9 @@ src/
     └── global.css
 ```
 
-## CSS Custom Properties
+## CSS 自定义属性
 
-Define design tokens as variables. Do not hardcode palette, typography, or spacing repeatedly:
+将设计令牌定义为变量。不要重复硬编码调色板、排版或间距：
 
 ```css
 :root {
@@ -54,15 +54,15 @@ Define design tokens as variables. Do not hardcode palette, typography, or spaci
 }
 ```
 
-## Animation-Only Properties
+## 仅动画属性
 
-Prefer compositor-friendly motion:
+优先使用合成器友好的运动属性：
 - `transform`
 - `opacity`
 - `clip-path`
-- `filter` (sparingly)
+- `filter`（谨慎使用）
 
-Avoid animating layout-bound properties:
+避免对布局相关属性做动画：
 - `width`
 - `height`
 - `top`
@@ -72,7 +72,7 @@ Avoid animating layout-bound properties:
 - `border`
 - `font-size`
 
-## Semantic HTML First
+## 语义化 HTML 优先
 
 ```html
 <header>
@@ -86,11 +86,11 @@ Avoid animating layout-bound properties:
 <footer>...</footer>
 ```
 
-Do not reach for generic wrapper `div` stacks when a semantic element exists.
+当存在语义化元素时，不要使用通用的 `div` 嵌套包裹。
 
-## Naming
+## 命名规范
 
-- Components: PascalCase (`ScrollySection`, `SurfaceCard`)
-- Hooks: `use` prefix (`useReducedMotion`)
-- CSS classes: kebab-case or utility classes
-- Animation timelines: camelCase with intent (`heroRevealTl`)
+- 组件：PascalCase（`ScrollySection`、`SurfaceCard`）
+- Hooks：`use` 前缀（`useReducedMotion`）
+- CSS 类名：kebab-case 或工具类
+- 动画时间线：camelCase 并带有意图（`heroRevealTl`）

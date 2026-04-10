@@ -1,12 +1,12 @@
-> This file extends [common/patterns.md](../common/patterns.md) with web-specific patterns.
+> 本文件扩展 [common/patterns.md](../common/patterns.md)，补充 Web 特定的模式。
 
-# Web Patterns
+# Web 模式
 
-## Component Composition
+## 组件组合
 
-### Compound Components
+### 复合组件
 
-Use compound components when related UI shares state and interaction semantics:
+当关联的 UI 共享状态和交互语义时，使用复合组件：
 
 ```tsx
 <Tabs defaultValue="overview">
@@ -19,61 +19,61 @@ Use compound components when related UI shares state and interaction semantics:
 </Tabs>
 ```
 
-- Parent owns state
-- Children consume via context
-- Prefer this over prop drilling for complex widgets
+- 父组件拥有状态
+- 子组件通过 context 消费
+- 对于复杂组件，优先使用此模式而非逐层传递 props
 
-### Render Props / Slots
+### Render Props / 插槽
 
-- Use render props or slot patterns when behavior is shared but markup must vary
-- Keep keyboard handling, ARIA, and focus logic in the headless layer
+- 当行为共享但标记需要变化时，使用 render props 或插槽模式
+- 将键盘处理、ARIA 和焦点管理逻辑保留在无样式（headless）层
 
-### Container / Presentational Split
+### 容器 / 展示分离
 
-- Container components own data loading and side effects
-- Presentational components receive props and render UI
-- Presentational components should stay pure
+- 容器组件负责数据加载和副作用
+- 展示组件接收 props 并渲染 UI
+- 展示组件应保持纯净
 
-## State Management
+## 状态管理
 
-Treat these separately:
+分别对待以下关注点：
 
-| Concern | Tooling |
+| 关注点 | 工具选型 |
 |---------|---------|
-| Server state | TanStack Query, SWR, tRPC |
-| Client state | Zustand, Jotai, signals |
-| URL state | search params, route segments |
-| Form state | React Hook Form or equivalent |
+| 服务端状态 | TanStack Query、SWR、tRPC |
+| 客户端状态 | Zustand、Jotai、signals |
+| URL 状态 | search params、路由分段 |
+| 表单状态 | React Hook Form 或等效方案 |
 
-- Do not duplicate server state into client stores
-- Derive values instead of storing redundant computed state
+- 不要将服务端状态复制到客户端 store 中
+- 通过派生值代替存储冗余的计算状态
 
-## URL As State
+## URL 即状态
 
-Persist shareable state in the URL:
-- filters
-- sort order
-- pagination
-- active tab
-- search query
+将可共享的状态持久化到 URL 中：
+- 筛选条件
+- 排序方式
+- 分页
+- 当前标签页
+- 搜索关键词
 
-## Data Fetching
+## 数据获取
 
 ### Stale-While-Revalidate
 
-- Return cached data immediately
-- Revalidate in the background
-- Prefer existing libraries instead of rolling this by hand
+- 立即返回缓存数据
+- 在后台重新验证
+- 优先使用现有库而非手动实现
 
-### Optimistic Updates
+### 乐观更新
 
-- Snapshot current state
-- Apply optimistic update
-- Roll back on failure
-- Emit visible error feedback when rolling back
+- 快照当前状态
+- 应用乐观更新
+- 失败时回滚
+- 回滚时显示可见的错误反馈
 
-### Parallel Loading
+### 并行加载
 
-- Fetch independent data in parallel
-- Avoid parent-child request waterfalls
-- Prefetch likely next routes or states when justified
+- 并行获取互不依赖的数据
+- 避免父子请求瀑布流
+- 在合理情况下预取可能的下一个路由或状态

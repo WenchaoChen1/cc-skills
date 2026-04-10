@@ -2,30 +2,30 @@
 paths:
   - "**/*.java"
 ---
-# Java Testing
+# Java 测试规范
 
-> This file extends [common/testing.md](../common/testing.md) with Java-specific content.
+> 本文件扩展了 [common/testing.md](../common/testing.md)，补充 Java 特有的内容。
 
-## Test Framework
+## 测试框架
 
-- **JUnit 5** (`@Test`, `@ParameterizedTest`, `@Nested`, `@DisplayName`)
-- **AssertJ** for fluent assertions (`assertThat(result).isEqualTo(expected)`)
-- **Mockito** for mocking dependencies
-- **Testcontainers** for integration tests requiring databases or services
+- **JUnit 5**（`@Test`、`@ParameterizedTest`、`@Nested`、`@DisplayName`）
+- **AssertJ** 用于流式断言（`assertThat(result).isEqualTo(expected)`）
+- **Mockito** 用于模拟依赖
+- **Testcontainers** 用于需要数据库或服务的集成测试
 
-## Test Organization
+## 测试组织结构
 
 ```
 src/test/java/com/example/app/
-  service/           # Unit tests for service layer
-  controller/        # Web layer / API tests
-  repository/        # Data access tests
-  integration/       # Cross-layer integration tests
+  service/           # Service 层单元测试
+  controller/        # Web 层 / API 测试
+  repository/        # 数据访问层测试
+  integration/       # 跨层集成测试
 ```
 
-Mirror the `src/main/java` package structure in `src/test/java`.
+在 `src/test/java` 中镜像 `src/main/java` 的包结构。
 
-## Unit Test Pattern
+## 单元测试模式
 
 ```java
 @ExtendWith(MockitoExtension.class)
@@ -65,7 +65,7 @@ class OrderServiceTest {
 }
 ```
 
-## Parameterized Tests
+## 参数化测试
 
 ```java
 @ParameterizedTest
@@ -80,9 +80,9 @@ void applyDiscount(BigDecimal price, int pct, BigDecimal expected) {
 }
 ```
 
-## Integration Tests
+## 集成测试
 
-Use Testcontainers for real database integration:
+使用 Testcontainers 进行真实数据库集成测试：
 
 ```java
 @Testcontainers
@@ -111,21 +111,21 @@ class OrderRepositoryIT {
 }
 ```
 
-For Spring Boot integration tests, see skill: `springboot-tdd`.
+关于 Spring Boot 集成测试，参见技能：`springboot-tdd`。
 
-## Test Naming
+## 测试命名
 
-Use descriptive names with `@DisplayName`:
-- `methodName_scenario_expectedBehavior()` for method names
-- `@DisplayName("human-readable description")` for reports
+使用描述性名称并配合 `@DisplayName`：
+- `methodName_scenario_expectedBehavior()` 作为方法名格式
+- `@DisplayName("人类可读的描述")` 用于测试报告
 
-## Coverage
+## 覆盖率
 
-- Target 80%+ line coverage
-- Use JaCoCo for coverage reporting
-- Focus on service and domain logic — skip trivial getters/config classes
+- 目标行覆盖率 80% 以上
+- 使用 JaCoCo 进行覆盖率报告
+- 重点覆盖 Service 和领域逻辑 —— 跳过简单的 getter/配置类
 
-## References
+## 参考资料
 
-See skill: `springboot-tdd` for Spring Boot TDD patterns with MockMvc and Testcontainers.
-See skill: `java-coding-standards` for testing expectations.
+参见技能：`springboot-tdd` 获取使用 MockMvc 和 Testcontainers 的 Spring Boot TDD 模式。
+参见技能：`java-coding-standards` 获取测试相关要求。
