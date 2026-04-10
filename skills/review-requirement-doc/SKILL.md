@@ -6,7 +6,7 @@ version: 1.0.0
 author: Wenchao Chen
 ---
 
-> **路径变量**：路径 = `{根变量}/{固定变量}/固定后缀`。根变量可配置（`project_root` / `personal_root`），其余固定。详见 `config/README.md`。
+> **路径变量**：路径 = `{根变量}/{可配变量}/固定后缀`。根变量和可配变量均可在 `cc-skills.json` 中自定义，仅后缀固定。详见 `config/README.md`。
 
 # 审查产品功能需求文档
 

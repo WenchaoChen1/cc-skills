@@ -26,7 +26,10 @@ if [[ ! -f "$PERSONAL_ROOT/cc-skills.json" ]]; then
   cat > "$PERSONAL_ROOT/cc-skills.json" << 'CONF'
 {
   "project_root": "cc-cache-doc",
-  "personal_root": "~/.cc-cache-doc"
+  "personal_root": "~/.cc-cache-doc",
+  "features": "features",
+  "rules": "rules",
+  "standards": "standards"
 }
 CONF
 fi
