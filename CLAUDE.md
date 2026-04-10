@@ -1,6 +1,78 @@
-# cc-skills
+# CLAUDE.md
 
-Claude Code 和 Cursor 的中文技能集合，提供实用的开发工作流技能。
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## 项目概述
+
+cc-skills 是一个 Claude Code / Cursor 插件项目，提供 20 个中文技能（skills）和 13 个 Agent。通过 marketplace 分发，用户安装后获得需求、设计、开发、测试全流程的 AI 辅助能力。
+
+## 版本管理
+
+所有版本号必须通过脚本同步更新，不要手动修改单个文件：
+
+```bash
+# 检查版本一致性
+./scripts/bump-version.sh --check
+
+# 更新版本（同步 package.json、plugin.json、marketplace.json）
+./scripts/bump-version.sh 0.2.0
+```
+
+版本同步配置在 `.version-sync.json`，当前同步 4 个文件。
+
+## 插件架构
+
+```
+.claude-plugin/plugin.json     → Claude Code 插件发现入口
+.claude-plugin/marketplace.json → marketplace 发布元数据
+.cursor-plugin/plugin.json     → Cursor 插件发现入口
+hooks/hooks.json               → Claude Code SessionStart hook
+hooks/hooks-cursor.json        → Cursor SessionStart hook
+hooks/session-start            → bash 脚本，扫描 skills 注入会话上下文
+hooks/run-hook.cmd             → Windows 兼容 wrapper（batch+bash 混合）
+```
+
+Claude Code 自动扫描 `skills/` 和 `agents/` 目录发现内容，**不需要**在 plugin.json 中显式声明路径。
+
+## Skill 文件规范
+
+每个 skill 是 `skills/<name>/SKILL.md`，必须包含 YAML frontmatter：
+
+```yaml
+---
+name: review-requirement-doc       # 必须与目录名一致
+description: 一句话描述             # 必填
+tags: [review, documentation]      # 必填，小写英文
+version: 1.0.0                     # 可选
+author: Wenchao Chen               # 可选
+---
+```
+
+关键约束：
+- `name` 必须与目录名完全匹配
+- frontmatter 总大小 ≤ 1024 字符
+- 目录名用 kebab-case，动词开头
+- Skill 模板在 `docs/_template/SKILL.md`
+
+## Agent 文件规范
+
+每个 agent 是 `agents/<name>.md`，使用 YAML frontmatter 定义 name、description、tools、model 等。
+
+## 规则系统
+
+`rules/common/` 下的 3 个规则文件会被自动加载：
+- `coding-style.md` — 不可变性、文件组织、命名
+- `git-workflow.md` — commit 格式、分支策略
+- `security.md` — 密钥管理、输入校验
+
+未来可按需添加语言特定规则目录（如 `rules/typescript/`），语言规则优先级高于 common。
+
+## 添加新 Skill
+
+1. 复制 `docs/_template/SKILL.md` 到 `skills/<new-name>/SKILL.md`
+2. 修改 frontmatter（name 必须与目录名一致）
+3. 更新 CLAUDE.md 和 README.md 中的技能列表
+4. Commit 后推送，用户通过 `/plugin update` 获取
 
 ## 技能目录
 
@@ -43,6 +115,12 @@ Claude Code 和 Cursor 的中文技能集合，提供实用的开发工作流技
 | [team-code](skills/team-code/SKILL.md) | 开发团队 |
 | [team-test](skills/team-test/SKILL.md) | 测试团队 |
 
+### 项目管理
+
+| 技能 | 说明 |
+|------|------|
+| [review-asana-ticket](skills/review-asana-ticket/SKILL.md) | 审查 Asana ticket 需求质量（六维度打分） |
+
 ### 流水线与审计
 
 | 技能 | 说明 |
@@ -68,20 +146,10 @@ Claude Code 和 Cursor 的中文技能集合，提供实用的开发工作流技
 | [qa-developer](agents/qa-developer.md) | 测试开发 |
 | [qa-executor](agents/qa-executor.md) | 测试执行 |
 
-## 规则
-
-`rules/common/` 下的规则会自动加载为项目级编码规范：
-
-- **coding-style.md** — 编码风格（不可变性、文件组织、命名规范）
-- **git-workflow.md** — Git 工作流（commit 格式、分支策略）
-- **security.md** — 安全规范（密钥管理、输入校验、安全检查清单）
-
-详见 [rules/README.md](rules/README.md)。
-
 ## 贡献指南
 
 1. Fork 本仓库
-2. 参考 `skills/_template/SKILL.md` 创建新 skill
+2. 参考 `docs/_template/SKILL.md` 创建新 skill
 3. 确保 frontmatter 包含必填字段：`name`、`description`、`tags`
 4. 确保 skill 目录名与 frontmatter 中的 `name` 一致
 5. 提交 PR，填写完整的 PR 模板

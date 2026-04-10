@@ -76,6 +76,12 @@ Codex、OpenCode 等平台的支持正在规划中，详见对应目录下的 `I
 | run-e2e-pipeline | 一键端到端开发流水线 |
 | team-usage-audit | Claude Code 使用审计报告 |
 
+### 项目管理
+
+| 技能 | 说明 |
+|------|------|
+| review-asana-ticket | 审查 Asana ticket 需求质量（六维度打分） |
+
 ## Agents
 
 13 个专业化 Agent，覆盖产品、设计、开发、测试四个团队：
