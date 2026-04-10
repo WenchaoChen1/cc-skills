@@ -58,38 +58,7 @@ author: Wenchao Chen
 > **最先执行，不可跳过。后续所有路径从此配置获取。**
 > 详见 `config/README.md`。
 
-### 读取配置变量
-
-1. 读取 `<project>/{project_root}/cc-skills.json`（项目配置，最高优先级）
-2. 读取 `~/{personal_root}/cc-skills.json`（个人配置）
-3. 未配置的变量使用默认值
-
-| 变量 | 默认值 | 可配置 | 备注 |
-|------|--------|--------|------|
-| `project_root` | `cc-cache-doc` | ✅ | 可为空 |
-| `personal_root` | `.cc-cache-doc` | ✅ | 可为空 |
-| `features` | `features` | ✅ | 必填 |
-| `rules` | `rules` | ✅ | 必填 |
-| `standards` | `standards` | ✅ | 必填 |
-
-### 拼接路径
-
-公式：`{根变量} / {可配变量} / 固定后缀`
-
-| 简写 | = 根变量 / 可配变量 |
-|------|---------------------|
-| `{features}` | `{project_root}` / `{features}` |
-| `{rules}` | `{project_root}` / `{rules}` |
-| `{standards}` | `{project_root}` / `{standards}` |
-| `{personal_rules}` | `{personal_root}` / `{rules}` |
-| `{personal_standards}` | `{personal_root}` / `{standards}` |
-
-示例：`{features}/{name}/requirement/` = `{project_root}/{features}/{name}/requirement/`
-
-### 功能目录识别
-
-- 有参数：使用 `{features}/{name}/`
-- 无参数：扫描 `{features}/` 列出含 `dev-design/` 子目录的功能目录供选择
+从用户的 `cc-skills.json` 配置文件读取路径变量（`{project_root}`、`{personal_root}`、`{features}`、`{rules}`、`{standards}`），后续所有 `{变量}` 引用的路径均从此配置获取。
 
 ---
 
