@@ -92,8 +92,9 @@ author: Wenchao Chen               # 可选
 |------|------|
 | [gen-design-doc](skills/gen-design-doc/SKILL.md) | 生成功能设计文档 |
 | [review-design-doc](skills/review-design-doc/SKILL.md) | 审查功能设计文档 |
-| [dev-common](skills/dev-common/SKILL.md) | 开发 skill 公共规范 |
-| [dev-run](skills/dev-run/SKILL.md) | 智能调度器，自动检测技术栈分发开发 |
+| [dev-code](skills/dev-code/SKILL.md) | **统一写代码入口**（自动检测技术栈） |
+| [dev-common](skills/dev-common/SKILL.md) | 开发公共规范 |
+| [dev-run](skills/dev-run/SKILL.md) | 智能调度器 |
 | [backend-java](skills/backend-java/SKILL.md) | Java 后端开发 |
 | [backend-python](skills/backend-python/SKILL.md) | Python 后端开发 |
 | [frontend](skills/frontend/SKILL.md) | 前端开发 |

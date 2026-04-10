@@ -5,11 +5,7 @@ tools: Read, Grep, Glob, Write, Edit, Bash
 model: opus
 effort: high
 skills:
-  - dev:backend-java
-  - dev:backend-python
-  - dev:frontend
-  - dev:common
-  - dev:run
+  - dev:code
 ---
 
 > 开发团队 · 统一代码编写。自动检测技术栈，调度 Java/Python/前端开发，遵守先读后写、改动最小化原则。
