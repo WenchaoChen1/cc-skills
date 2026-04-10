@@ -2,29 +2,32 @@
 
 路径公式：`{基础路径} / {根变量} / {可配变量} / {name} / 固定后缀`
 
-每一层（除基础路径外）均可为空，为空时跳过该层。
+| 层 | 可为空 | 说明 |
+|----|--------|------|
+| 基础路径 | 不可 | `<project>` 或 `~`，隐含 |
+| 根变量 | ✅ | `project_root` / `personal_root` |
+| 可配变量 | ✅ | `features` / `rules` / `standards` |
+| {name} | - | 功能名称，用户传入 |
+| 固定后缀 | 必填 | `requirement/`、`dev-design/` 等 |
 
-## 基础路径（隐含，不可配置）
-
-| 基础路径 | 值 |
-|---------|-----|
-| `<project>` | 当前项目目录 |
-| `~` | 用户 home 目录 |
-
-## 可配变量
+## 变量
 
 | 变量 | 默认值 | 可为空 |
 |------|--------|--------|
 | `project_root` | `cc-cache-doc` | ✅ |
 | `personal_root` | `.cc-cache-doc` | ✅ |
 | `features` | `features` | ✅ |
-| `rules` | `rules` | 必填 |
-| `standards` | `standards` | 必填 |
+| `rules` | `rules` | ✅ |
+| `standards` | `standards` | ✅ |
+
+## 固定后缀（必填，不可配置）
+
+`requirement/`、`dev-design/`、`reviews/`、`user-test/`、`unit-test/`
 
 ## 路径示例
 
-| 场景 | 完整路径 |
-|------|---------|
+| 场景 | 路径 |
+|------|------|
 | 全部配置 | `<project>/cc-cache-doc/features/dashboard/requirement/` |
 | project_root 为空 | `<project>/features/dashboard/requirement/` |
 | features 为空 | `<project>/cc-cache-doc/dashboard/requirement/` |
@@ -47,10 +50,6 @@
 ```
 
 只写需要改的字段。项目配置优先于个人配置。
-
-## 固定后缀
-
-`{name}/` 下：`requirement/`、`dev-design/`、`reviews/`、`user-test/`、`unit-test/`
 
 ## 自动安装
 
