@@ -1,17 +1,8 @@
-# /dev/backend-python — Python 后端开发
+# Python 后端开发
 
 > 基于设计文档实现 Python 后端代码。适用于 FastAPI / Flask / Django / 其他 Python 框架（从 CLAUDE.md 确认）。
-> 公共规则见 `/dev/common`，本文件仅定义 Python 后端特有的实现流程。
+> 公共规则见 common.md，本文件仅定义 Python 后端特有的实现流程。
 > 工作目录：由 `CLAUDE.md` 中的 Python 后端项目路径决定。
-
-## 使用方式
-
-```
-/dev/backend-python <功能名称>
-```
-
-> **独立调用时**：自动执行 `/dev/common` 的准备阶段（读 CLAUDE.md → 读设计文档 → 读需求文档 → 探索 Python 后端代码模式）。
-> **由 `/dev/run` 调度时**：准备阶段已由调度器完成，直接进入实现步骤。
 
 ---
 
