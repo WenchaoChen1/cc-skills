@@ -2,13 +2,10 @@
 
 调用 code 技能，使用 coder agent 执行。
 
-自动检测技术栈（Java/Python/前端），加载公共规范，根据设计文档完成代码编写。
+根据项目中存在的规则动态检测技术栈并开发。有规则就遵循，没有就按通用规范。
 
 ```
-/code financial-dashboard              → 自动检测技术栈
-/code financial-dashboard --java-only  → 仅 Java 后端
-/code financial-dashboard --python-only → 仅 Python 后端
-/code financial-dashboard --frontend-only → 仅前端
+/code <功能名称>
 ```
 
 $ARGUMENTS
