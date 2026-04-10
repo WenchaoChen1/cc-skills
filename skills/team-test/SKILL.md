@@ -6,6 +6,8 @@ version: 1.0.0
 author: Wenchao Chen
 ---
 
+> **路径变量**：本 skill 使用 `config/defaults.json` 定义的路径变量。`{features}` 默认为 `cc-cache-doc/features`。详见 `config/README.md`。
+
 # /team-test — 测试团队
 
 > 启动测试团队（qa-designer + qa-developer + qa-executor），生成测试文档、测试代码并执行测试。
@@ -16,7 +18,7 @@ author: Wenchao Chen
 /team-test <功能名称>
 
 前置条件：
-- features/<功能名称>/dev-design/dev-design-doc.md 存在
+- {features}/{name}/dev-design/dev-design-doc.md 存在
 - 对应的后端/前端代码已实现
 
 ---
@@ -37,7 +39,7 @@ author: Wenchao Chen
 
 1. 解析参数：功能名称
 2. 检查 dev-design-doc.md 和代码文件是否存在
-3. 确保 features/<name>/user-test/ 和 features/<name>/unit-test/ 目录存在
+3. 确保 {features}/{name}/user-test/ 和 {features}/{name}/unit-test/ 目录存在
 
 ### 第二步：qa-designer + qa-developer 并行
 
@@ -46,12 +48,12 @@ author: Wenchao Chen
 **qa-designer**（测试设计）：
 - 输入：requirement-doc.md + dev-design-doc.md
 - 遵循 /gen-user-test-doc 完整流程
-- 产出：features/<name>/user-test/user-test-doc.md（功能测试 + 边界测试 + UI 测试 + 验收测试）
+- 产出：{features}/{name}/user-test/user-test-doc.md（功能测试 + 边界测试 + UI 测试 + 验收测试）
 
 **qa-developer**（测试代码）：
 - 输入：dev-design-doc.md + requirement-doc.md
 - 遵循 /dev/gen-unit-test 完整流程
-- 产出：JUnit 测试 + Jest 测试 + features/<name>/unit-test/README.md
+- 产出：JUnit 测试 + Jest 测试 + {features}/{name}/unit-test/README.md
 
 等待两者均完成。
 
@@ -59,7 +61,7 @@ author: Wenchao Chen
 
 - 遵循 /dev/run-tests 完整流程
 - 运行后端 mvn test + 前端 npm test
-- 产出：features/<name>/reviews/test-execution.md
+- 产出：{features}/{name}/reviews/test-execution.md
 
 ### 第四步：修复失败项（若有）
 
@@ -75,7 +77,7 @@ author: Wenchao Chen
 ▌ qa-designer：测试文档（P0 用例 N 条，边界场景 N 条）
 ▌ qa-developer：后端测试 N 个类，前端测试 N 个文件
 ▌ qa-executor：测试通过率 N%
-▌ 测试报告：features/<name>/reviews/test-execution.md
+▌ 测试报告：{features}/{name}/reviews/test-execution.md
 
 测试全部通过：功能可以提测 ✅
 或：需修复 N 个失败项后重测

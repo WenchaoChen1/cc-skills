@@ -6,6 +6,8 @@ version: 1.0.0
 author: Wenchao Chen
 ---
 
+> **路径变量**：本 skill 使用 `config/defaults.json` 定义的路径变量。`{features}` 默认为 `cc-cache-doc/features`。详见 `config/README.md`。
+
 # 生成产品功能需求文档
 
 根据原始需求材料（文字描述、截图、草稿等），生成逻辑清晰的产品功能需求文档（PRD）。
@@ -33,13 +35,13 @@ author: Wenchao Chen
 
 ### 第〇步：确定功能名称与输出目录
 
-1. 若 `$ARGUMENTS` 非空：从参数中提取文件路径（需求文档/截图），功能名称从第一个参数推断（`features/xxx/...` 取 `xxx`；其他文件取去掉路径和扩展名的文件名）
+1. 若 `$ARGUMENTS` 非空：从参数中提取文件路径（需求文档/截图），功能名称从第一个参数推断（`{features}/xxx/...` 取 `xxx`；其他文件取去掉路径和扩展名的文件名）
 2. 若 `$ARGUMENTS` 为空：从对话内容中获取需求描述，并在处理完成后询问用户确认功能名称（小写 + 连字符）
 
 **重复创建检查**（在生成文件前执行）：
-- 若 `features/<name>/requirement/requirement-doc.md` 已存在：
+- 若 `{features}/{name}/requirement/requirement-doc.md` 已存在：
   ```
-  ⚠️ 文件已存在：features/<name>/requirement/requirement-doc.md
+  ⚠️ 文件已存在：{features}/{name}/requirement/requirement-doc.md
   建议先运行 /review-requirement-doc <name> 审查现有文档。
   选项：A. 覆盖（原文件被替换）  B. 取消（默认）  C. 查看现有文件内容
   ```
@@ -225,14 +227,14 @@ P2. [问题类型] <具体描述>
 
 ### 第七步：保存文档
 
-**保存路径**：`<当前项目根目录>/features/<功能名称>/requirement/requirement-doc.md`
-（若目录不存在先创建 `features/<功能名称>/requirement/` 文件夹）
+**保存路径**：`<当前项目根目录>/{features}/{name}/requirement/requirement-doc.md`
+（若目录不存在先创建 `{features}/{name}/requirement/` 文件夹）
 
 功能名称从参数或内容中推断：若用户提供了文件路径，取去掉路径和扩展名后的文件名；若直接粘贴描述，根据功能主题生成英文短名（小写 + 连字符）。
 
 保存后提示：
 ```
-文档已保存至 features/<功能名称>/requirement/requirement-doc.md
+文档已保存至 {features}/{name}/requirement/requirement-doc.md
 下一步：运行 /review-requirement-doc <功能名称> 审查需求，或 /dev/gen-design-doc <功能名称> 直接生成设计文档。
 ```
 
@@ -536,7 +538,7 @@ P2. [问题类型] <具体描述>
 - **术语必须定义**：非行业通用的术语首次出现时给出精确定义，全文含义一致
 - **布局描述诚实**：有截图就基于截图描述；无视觉参考时标注「⚠️ 布局待设计」，不捏造
 - **列/行结构要具体**：表格类页面列出每一列的名称、内容类型和排列顺序
-- **引用必须注明来源**：引用本文档其他章节写明「见 §X.X」；引用其他功能模块写明「见 features/<模块名>/requirement/requirement-doc.md §X.X」；引用截图写明「来源：<截图文件名>」；引用沟通结论写明「来源：<日期> <沟通方式>」；引用行业标准/法规写明「来源：<标准/法规名称> <条款>」；引用其他外部文档写明「来源：<文档名称> <章节/页码>」
+- **引用必须注明来源**：引用本文档其他章节写明「见 §X.X」；引用其他功能模块写明「见 {features}/<模块名>/requirement/requirement-doc.md §X.X」；引用截图写明「来源：<截图文件名>」；引用沟通结论写明「来源：<日期> <沟通方式>」；引用行业标准/法规写明「来源：<标准/法规名称> <条款>」；引用其他外部文档写明「来源：<文档名称> <章节/页码>」
 - **逻辑必须可追溯**：出现"按照XX规则"、"与XX一致"、"沿用XX方案"等引用性语句时，必须注明引用的具体章节或来源；如果是本文档首次定义的逻辑，必须完整写出规则内容，不能用"按既定规则"、"按之前的方案"等模糊表述代替
 - **查询必须说明数据源**：描述数据展示/查询时，必须说明数据从哪个业务模块获取、经过什么筛选条件
 - **存入必须说明操作**：描述数据写入时，必须说明什么操作触发存入、存入什么数据、是新增还是更新还是覆盖

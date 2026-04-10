@@ -6,6 +6,8 @@ version: 1.0.0
 author: Wenchao Chen
 ---
 
+> **路径变量**：本 skill 使用 `config/defaults.json` 定义的路径变量。`{features}` 默认为 `cc-cache-doc/features`。详见 `config/README.md`。
+
 # 快速修复管道
 
 从 bug 描述出发，快速定位代码、分析根因、执行修复、运行测试、生成修复报告。
@@ -49,7 +51,7 @@ author: Wenchao Chen
 **搜索策略（逐级扩大范围）**：
 
 1. **若指定了 `--feature`**：
-   - 读取 `features/<feature>/dev-design/dev-design-doc.md`，从设计文档中定位相关接口和页面文件
+   - 读取 `{features}/{name}/dev-design/dev-design-doc.md`，从设计文档中定位相关接口和页面文件
    - 直接读取对应的 Controller、Service、前端页面文件
 
 2. **按错误信息搜索**：
@@ -217,7 +219,7 @@ author: Wenchao Chen
 ```
 
 **保存路径**：
-- 若指定了 `--feature`：`features/<feature>/reviews/hotfix-<YYYY-MM-DD>.md`
+- 若指定了 `--feature`：`{features}/{name}/reviews/hotfix-<YYYY-MM-DD>.md`
 - 若未指定：仅输出到控制台
 
 ---

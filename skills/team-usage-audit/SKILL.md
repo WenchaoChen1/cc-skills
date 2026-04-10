@@ -6,6 +6,8 @@ version: 1.0.0
 author: Wenchao Chen
 ---
 
+> **路径变量**：本 skill 使用 `config/defaults.json` 定义的路径变量。`{features}` 默认为 `cc-cache-doc/features`。详见 `config/README.md`。
+
 # Claude Code 团队使用审计报告
 
 生成多维度的 Claude Code 使用审计报告，覆盖 **所有本地项目**，包含 10 个分析维度和 0-100 综合评分。支持快速模式（默认）和深度模式（`--deep`，解析对话 JSONL）。
@@ -148,12 +150,12 @@ console.log(JSON.stringify(projects, null, 2));
 - **错误-重试模式**：工具调用失败后的重试行为
 - **Agent 使用模式**：Agent 工具的调用频率和任务类型
 
-#### 3.3 扫描 features/ 目录（文档产物完整性）
+#### 3.3 扫描 {features}/ 目录（文档产物完整性）
 
-在当前工作目录及所有已知项目路径下扫描 `features/` 目录：
+在当前工作目录及所有已知项目路径下扫描 `{features}/` 目录：
 
 ```bash
-# 扫描当前项目和所有项目的 features/ 目录
+# 扫描当前项目和所有项目的 {features}/ 目录
 # 对每个 feature 子目录，检查以下产物是否存在：
 #   requirement/requirement-doc.md  (需求文档)
 #   dev-design/dev-design-doc.md    (设计文档)
@@ -304,7 +306,7 @@ git --no-pager -C <project_path> log --after="$START_DATE" --before="$END_DATE" 
 
 #### 维度 D：文档质量（权重 15%）
 
-**数据源**：features/*/ 目录扫描
+**数据源**：{features}/*/ 目录扫描
 
 每个 feature 检查 4 类产物：
 1. `requirement/requirement-doc.md` — 25 分
@@ -319,7 +321,7 @@ git --no-pager -C <project_path> log --after="$START_DATE" --before="$END_DATE" 
 
 **评分规则**：
 - 所有 feature 的平均文档完整度得分
-- 如无 features/ 目录 → 标注"无文档产物"，得 0 分
+- 如无 {features}/ 目录 → 标注"无文档产物"，得 0 分
 
 #### 维度 E：工具效率（权重 10%）
 
@@ -745,7 +747,7 @@ gen-requirement-doc ──→ review-requirement-doc ──→ gen-dev-design-do
 
 1. **纯本地分析**：所有数据来自 `~/.claude/` 目录和项目本地文件，不访问任何远程 API
 2. **允许读取对话内容**：`--deep` 模式下可读取对话 JSONL 文件（团队内部使用，用户已确认无隐私顾虑）
-3. **容错处理**：如果某个数据源缺失（如没有 facets、没有 features/、没有 plans/），跳过该维度并在报告中标注"数据不可用"，对应维度给予中间分（50）
+3. **容错处理**：如果某个数据源缺失（如没有 facets、没有 {features}/、没有 plans/），跳过该维度并在报告中标注"数据不可用"，对应维度给予中间分（50）
 4. **时间戳处理**：history.jsonl 使用 Unix 毫秒时间戳，session-meta 使用 ISO 字符串，统一转换后比较
 5. **系统命令过滤**：统计 skill 时排除 "无" 等内置 CLI 命令
 6. **Git 命令**：所有 git 命令使用 `--no-pager` 参数，避免交互式输出

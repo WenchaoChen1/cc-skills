@@ -6,6 +6,8 @@ version: 1.0.0
 author: Wenchao Chen
 ---
 
+> **路径变量**：本 skill 使用 `config/defaults.json` 定义的路径变量。`{features}` 默认为 `cc-cache-doc/features`。详见 `config/README.md`。
+
 # 生成功能设计文档
 
 根据页面截图和需求文档，生成面向 AI 开发的完整功能设计文档。
@@ -18,7 +20,7 @@ author: Wenchao Chen
 ```
 
 例如：
-- `/dev/gen-design-doc financial-report`（自动定位 `features/financial-report/requirement/`）
+- `/dev/gen-design-doc financial-report`（自动定位 `{features}/financial-report/requirement/`）
 - `/dev/gen-design-doc financial-report screenshots/list.png screenshots/detail.png`（带截图）
 
 > 截图路径支持相对路径（相对于当前项目根目录）或绝对路径。
@@ -32,18 +34,18 @@ author: Wenchao Chen
 
 **若 `$ARGUMENTS` 非空**：
 - 第一个参数为需求文档路径（`.md/.txt/.docx`），后续参数为截图路径
-- 功能名称优先级：`features/xxx/requirement/requirement-doc.md` → 取 `xxx`；其他文件 → 取去掉路径和扩展名的文件名
+- 功能名称优先级：`{features}/xxx/requirement/requirement-doc.md` → 取 `xxx`；其他文件 → 取去掉路径和扩展名的文件名
 
 **若 `$ARGUMENTS` 为空**：
-- 扫描 `features/` 目录，列出含 `requirement/` 子目录的功能目录
-- 若只有一个：提示「检测到 `features/<name>/requirement/`，是否基于其中的内容生成设计文档？[Y/n]」
+- 扫描 `{features}/` 目录，列出含 `requirement/` 子目录的功能目录
+- 若只有一个：提示「检测到 `{features}/{name}/requirement/`，是否基于其中的内容生成设计文档？[Y/n]」
 - 若有多个：列出编号清单，提示用户选择
 - 若无匹配：提示「未找到需求文档，请先运行 /gen-requirement-doc 生成需求文档」
 
 **重复创建检查**（确定功能名称后执行）：
-- 若 `features/<name>/dev-design/dev-design-doc.md` 已存在：
+- 若 `{features}/{name}/dev-design/dev-design-doc.md` 已存在：
   ```
-  ⚠️ 文件已存在：features/<name>/dev-design/dev-design-doc.md
+  ⚠️ 文件已存在：{features}/{name}/dev-design/dev-design-doc.md
   建议先运行 /dev/review-design-doc <name> 审查现有设计文档。
   选项：A. 覆盖（原文件被替换）  B. 取消（默认）  C. 查看现有文件内容
   ```
@@ -53,7 +55,7 @@ author: Wenchao Chen
 
 解析 `$ARGUMENTS`：
 - **有参数时**：第一个参数为需求文档路径，使用 Read 工具读取（`.docx` 需用 python-docx 提取全文）；后续参数为截图路径，使用 Read 工具逐张读取图片
-- **无参数时（自动检测到功能目录）**：读取 `features/<功能名称>/requirement/` 目录下所有文件（逐一读取，不遗漏），后续参数为截图路径
+- **无参数时（自动检测到功能目录）**：读取 `{features}/{name}/requirement/` 目录下所有文件（逐一读取，不遗漏），后续参数为截图路径
 
 **文件读取容错**：
 - 需求文档目录或文件不存在 → 提示「缺少需求文档，请先运行 `/gen-requirement-doc <功能名称>`」，不继续后续步骤
@@ -143,11 +145,11 @@ author: Wenchao Chen
 
 ### 第五步：生成并保存功能设计文档
 
-**保存路径**：`<当前项目根目录>/features/<功能名称>/dev-design/dev-design-doc.md`
-（若 `features/<功能名称>/dev-design/` 目录不存在，先创建）
+**保存路径**：`<当前项目根目录>/{features}/{name}/dev-design/dev-design-doc.md`
+（若 `{features}/{name}/dev-design/` 目录不存在，先创建）
 
 功能名称的获取优先级：
-1. 若第一个参数是 `features/xxx/requirement/requirement-doc.md`，取 `xxx` 作为功能名称
+1. 若第一个参数是 `{features}/xxx/requirement/requirement-doc.md`，取 `xxx` 作为功能名称
 2. 若第一个参数是独立的需求文档，取去掉路径和扩展名后的文件名
 3. 否则根据功能主题生成英文短名（小写 + 连字符）
 
@@ -382,4 +384,4 @@ author: Wenchao Chen
 - **接口必须完整**：每个接口必须包含请求参数、响应结构、后端业务逻辑三部分
 - **公式集中到第 6 章**：截图中所有存在计算关系的数值，必须在第 6 章明确公式
 - **模板中的示例内容不得照搬**：所有 `<占位符>` 必须替换为实际内容
-- 保存后提示：`设计文档已保存至 features/<功能名称>/dev-design/dev-design-doc.md → 可运行 /dev/review-design-doc <功能名称> 审查设计，或 /dev/run <功能名称> 直接开发`
+- 保存后提示：`设计文档已保存至 {features}/{name}/dev-design/dev-design-doc.md → 可运行 /dev/review-design-doc <功能名称> 审查设计，或 /dev/run <功能名称> 直接开发`

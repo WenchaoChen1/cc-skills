@@ -6,9 +6,11 @@ version: 1.0.0
 author: Wenchao Chen
 ---
 
+> **路径变量**：本 skill 使用 `config/defaults.json` 定义的路径变量。`{features}` 默认为 `cc-cache-doc/features`。详见 `config/README.md`。
+
 # 执行测试并报告
 
-读取 `features/<name>/user-test/user-test-doc.md`，自动探测并运行后端/前端测试，汇总结果，标记失败项并给出修复建议。
+读取 `{features}/{name}/user-test/user-test-doc.md`，自动探测并运行后端/前端测试，汇总结果，标记失败项并给出修复建议。
 
 ## 使用方式
 
@@ -22,8 +24,8 @@ author: Wenchao Chen
 - `/dev/run-tests financial-dashboard --frontend-only`（仅前端）
 - `/dev/run-tests path/to/XxxServiceTest.java`（直接指定测试文件路径）
 
-> 传入功能名称时，自动定位 `features/<name>/unit-test/` 索引或搜索测试文件
-> 传入文件路径时，直接运行指定的测试文件，不依赖 `features/` 目录结构
+> 传入功能名称时，自动定位 `{features}/{name}/unit-test/` 索引或搜索测试文件
+> 传入文件路径时，直接运行指定的测试文件，不依赖 `{features}/` 目录结构
 
 ---
 
@@ -85,25 +87,25 @@ author: Wenchao Chen
 | `financial-dashboard` | `financial-dashboard` | 无（运行全部） |
 | `financial-dashboard --backend-only` | `financial-dashboard` | 仅后端 |
 | `financial-dashboard --frontend-only` | `financial-dashboard` | 仅前端 |
-| `--backend-only` | 自动检测（扫描 features/） | 仅后端 |
-| `features/financial-dashboard --backend-only` | `financial-dashboard` | 仅后端 |
+| `--backend-only` | 自动检测（扫描 {features}/） | 仅后端 |
+| `{features}/financial-dashboard --backend-only` | `financial-dashboard` | 仅后端 |
 
 > `--backend-only` 和 `--frontend-only` 互斥，若同时传入，提示「`--backend-only` 和 `--frontend-only` 不能同时使用，请选择其一或不传（运行全部）」并终止。
 
 1. 若 `$ARGUMENTS` 非空，先判断第一个非 `--` 开头参数的类型：
    - **情况 A — 指定了测试文件路径**（参数含文件扩展名如 `.java`、`.tsx`、`.ts`、`.test.js`，或指向已存在的文件路径）：
-     - 直接使用指定的测试文件，**不扫描 `features/` 固定目录**
+     - 直接使用指定的测试文件，**不扫描 `{features}/` 固定目录**
      - 支持多个文件路径（空格分隔），依次收集
      - **跳过下方第 3 条的索引/搜索逻辑**
-   - **情况 B — 仅指定功能名称**（参数不含文件扩展名，如 `xxx` 或 `features/xxx`）：
+   - **情况 B — 仅指定功能名称**（参数不含文件扩展名，如 `xxx` 或 `{features}/xxx`）：
      - 解析功能名称，继续执行下方第 3 条
 2. 若 `$ARGUMENTS` 为空（或只有选项参数）：
-   - 扫描 `features/` 目录，列出所有子目录
-   - 若只有一个：提示「检测到 `features/<name>/`，是否运行该功能的测试？[Y/n]」
+   - 扫描 `{features}/` 目录，列出所有子目录
+   - 若只有一个：提示「检测到 `{features}/{name}/`，是否运行该功能的测试？[Y/n]」
    - 若有多个：列出编号清单，提示用户选择
    - 若无匹配：提示「未找到功能目录，请提供功能名称」
 3. **仅情况 B 和空参数时执行 — 定位测试文件**（优先索引，降级搜索）：
-   - **优先**：读取 `features/<name>/unit-test/README.md` 测试文件索引，从中获取测试文件路径
+   - **优先**：读取 `{features}/{name}/unit-test/README.md` 测试文件索引，从中获取测试文件路径
    - **降级**（索引不存在时）：
      - 后端：在后端项目目录下搜索 `*Test.java` 文件（按功能名或接口名匹配）
      - 前端：在前端项目页面目录下搜索 `__tests__/*.test.tsx` 文件

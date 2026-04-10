@@ -6,9 +6,11 @@ version: 1.0.0
 author: Wenchao Chen
 ---
 
+> **路径变量**：本 skill 使用 `config/defaults.json` 定义的路径变量。`{features}` 默认为 `cc-cache-doc/features`。详见 `config/README.md`。
+
 # 生成自动化测试代码
 
-根据 `features/<name>/` 下的需求文档和设计文档，自动探测项目测试框架，生成后端单元测试、接口测试和前端组件测试代码，写入各代码仓库。
+根据 `{features}/{name}/` 下的需求文档和设计文档，自动探测项目测试框架，生成后端单元测试、接口测试和前端组件测试代码，写入各代码仓库。
 
 ## 使用方式
 
@@ -17,13 +19,13 @@ author: Wenchao Chen
 ```
 
 例如：
-- `/dev/gen-unit-test financial-dashboard` — 按功能名称，自动读取 `features/` 下对应目录
+- `/dev/gen-unit-test financial-dashboard` — 按功能名称，自动读取 `{features}/` 下对应目录
 - `/dev/gen-unit-test 财务看板`
 - `/dev/gen-unit-test path/to/design-doc.md` — 直接指定设计文档路径
 - `/dev/gen-unit-test design.md requirement.md` — 同时指定多个文档
 
-> 传入功能名称时，自动读取 `features/<name>/dev-design/` 和 `features/<name>/requirement/` 目录
-> 传入文件路径时，直接读取指定文件，不依赖 `features/` 目录结构
+> 传入功能名称时，自动读取 `{features}/{name}/dev-design/` 和 `{features}/{name}/requirement/` 目录
+> 传入文件路径时，直接读取指定文件，不依赖 `{features}/` 目录结构
 
 ---
 
@@ -63,7 +65,7 @@ author: Wenchao Chen
 
 1. 等待两个 Agent 均完成
 2. 询问用户确认后，将测试代码写入对应位置（第五步）
-3. 生成 `features/<name>/unit-test/README.md` 测试文件索引（第六步）
+3. 生成 `{features}/{name}/unit-test/README.md` 测试文件索引（第六步）
 
 ---
 
@@ -73,14 +75,14 @@ author: Wenchao Chen
 
 1. 若 `$ARGUMENTS` 非空，先判断参数类型：
    - **情况 A — 指定了文档路径**（参数含文件扩展名如 `.md`、`.docx`、`.txt`，或指向已存在的文件路径）：
-     - 直接读取指定文件作为输入材料，**不扫描 `features/` 固定目录**
+     - 直接读取指定文件作为输入材料，**不扫描 `{features}/` 固定目录**
      - 支持多个文件路径（空格分隔），依次读取
      - 测试代码仍写入代码仓库对应位置，索引保存到文档所在目录的同级 `unit-test/` 下
-   - **情况 B — 仅指定功能名称**（参数不含文件扩展名，如 `xxx` 或 `features/xxx`）：
-     - 解析功能名称，自动读取 `features/<name>/dev-design/` 和 `features/<name>/requirement/` 目录
+   - **情况 B — 仅指定功能名称**（参数不含文件扩展名，如 `xxx` 或 `{features}/xxx`）：
+     - 解析功能名称，自动读取 `{features}/{name}/dev-design/` 和 `{features}/{name}/requirement/` 目录
 2. 若 `$ARGUMENTS` 为空：
-   - 扫描 `features/` 目录，列出含 `dev-design/` 子目录的功能目录
-   - 若只有一个：提示「检测到 `features/<name>/`，是否为该功能生成单元测试？[Y/n]」
+   - 扫描 `{features}/` 目录，列出含 `dev-design/` 子目录的功能目录
+   - 若只有一个：提示「检测到 `{features}/{name}/`，是否为该功能生成单元测试？[Y/n]」
    - 若有多个：列出编号清单，提示用户选择
    - 若无匹配：提示「未找到设计文档，请先运行 /dev/gen-design-doc」
 3. **文件读取容错**：
@@ -95,8 +97,8 @@ author: Wenchao Chen
    ```
    等待用户选择，默认取消。
 5. **仅情况 B 和空参数时执行** — 读取以下目录下所有文件（逐一读取）：
-   - `features/<name>/dev-design/`（接口规格、数据模型、业务规则）
-   - `features/<name>/requirement/`（若存在，补充测试场景：重点关注第 2 章使用场景、第 5 章业务规则和第 5.4 章边界条件）
+   - `{features}/{name}/dev-design/`（接口规格、数据模型、业务规则）
+   - `{features}/{name}/requirement/`（若存在，补充测试场景：重点关注第 2 章使用场景、第 5 章业务规则和第 5.4 章边界条件）
 6. 读取 `CLAUDE.md`，了解技术栈和目录结构
 
 ### 第二步：自动探测测试框架
@@ -219,7 +221,7 @@ describe('XxxPage', () => {
 ### 第六步：写入测试文件索引
 
 **索引保存路径**：
-- 情况 B / 空参数：`features/<name>/unit-test/README.md`
+- 情况 B / 空参数：`{features}/{name}/unit-test/README.md`
 - 情况 A：文档所在目录的同级 `unit-test/README.md`
 
 写入测试文件路径索引，格式如下：

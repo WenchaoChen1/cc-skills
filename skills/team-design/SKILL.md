@@ -6,6 +6,8 @@ version: 1.0.0
 author: Wenchao Chen
 ---
 
+> **路径变量**：本 skill 使用 `config/defaults.json` 定义的路径变量。`{features}` 默认为 `cc-cache-doc/features`。详见 `config/README.md`。
+
 # /team-design — 技术设计团队
 
 > 启动技术设计团队（arch-designer + arch-reviewer + arch-questioner），基于需求文档生成完整技术设计文档。
@@ -19,7 +21,7 @@ author: Wenchao Chen
 - /team-design benchmark-entry screenshots/detail.png
 - /team-design 财务看板
 
-前置条件：features/<功能名称>/requirement/requirement-doc.md 必须存在
+前置条件：{features}/{name}/requirement/requirement-doc.md 必须存在
 
 ---
 
@@ -38,9 +40,9 @@ author: Wenchao Chen
 ### 第一步：初始化
 
 1. 解析参数：功能名称、截图
-2. 检查 features/<name>/requirement/requirement-doc.md 是否存在
+2. 检查 {features}/{name}/requirement/requirement-doc.md 是否存在
    - 不存在 → 提示「缺少需求文档，请先运行 /team-product 或 /gen-requirement-doc」
-3. 确保 features/<name>/dev-design/ 和 features/<name>/reviews/ 目录存在
+3. 确保 {features}/{name}/dev-design/ 和 {features}/{name}/reviews/ 目录存在
 
 ### 第二步：arch-designer 起草设计
 
@@ -48,18 +50,18 @@ author: Wenchao Chen
 - 输入：requirement-doc.md + 截图
 - 遵循 /dev/gen-design-doc 的完整流程（skill 已预注入）
 - 先读 CLAUDE.md + 同类现有代码作为参考
-- 产出：features/<name>/dev-design/dev-design-doc.md（7 章结构：功能概述、UI 设计、前端实现、接口设计、数据模型、业务规则、异常处理）
+- 产出：{features}/{name}/dev-design/dev-design-doc.md（7 章结构：功能概述、UI 设计、前端实现、接口设计、数据模型、业务规则、异常处理）
 
 ### 第三步：arch-reviewer + arch-questioner 并行
 
 **arch-reviewer**（审查）：
 - 遵循 /dev/review-design-doc 完整流程
 - 审查维度：需求覆盖度、接口规范性、前后端一致性、架构规范合规
-- 产出：features/<name>/reviews/dev-design-review.md
+- 产出：{features}/{name}/reviews/dev-design-review.md
 
 **arch-questioner**（技术疑点收集）：
 - 从设计初稿中提取需要用户确认的技术决策问题
-- 产出：features/<name>/dev-design/tech-questions.md
+- 产出：{features}/{name}/dev-design/tech-questions.md
 
 ### 第四步：暂停等用户回答（若有问题）
 
@@ -67,8 +69,8 @@ author: Wenchao Chen
 
 ```
 Architect Team 初稿完成，请查看并处理：
-1. 审查报告：features/<name>/reviews/dev-design-review.md
-2. 技术疑点：features/<name>/dev-design/tech-questions.md
+1. 审查报告：{features}/{name}/reviews/dev-design-review.md
+2. 技术疑点：{features}/{name}/dev-design/tech-questions.md
 
 请回答 tech-questions.md 中的问题，完成后输入「继续」。
 ```
@@ -84,8 +86,8 @@ Architect Team 初稿完成，请查看并处理：
 
 ```
 【Team Design 完成】
-▌ 设计文档：features/<name>/dev-design/dev-design-doc.md
-▌ 审查报告：features/<name>/reviews/dev-design-review.md
+▌ 设计文档：{features}/{name}/dev-design/dev-design-doc.md
+▌ 审查报告：{features}/{name}/reviews/dev-design-review.md
 ▌ arch-reviewer：严重 N 个 → 已处理
 ▌ arch-questioner：N 个技术问题 → 用户已回答
 ▌ 接口数：N 个，数据表：N 张

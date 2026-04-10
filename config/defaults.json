@@ -1,0 +1,11 @@
+{
+  "project": {
+    "features": "cc-cache-doc/features",
+    "rules": "cc-cache-doc/rules",
+    "standards": "cc-cache-doc/standards"
+  },
+  "personal": {
+    "rules": "~/.cc-cache-doc/rules",
+    "standards": "~/.cc-cache-doc/standards"
+  }
+}

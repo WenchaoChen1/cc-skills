@@ -6,6 +6,8 @@ version: 1.0.0
 author: Wenchao Chen
 ---
 
+> **路径变量**：本 skill 使用 `config/defaults.json` 定义的路径变量。`{features}` 默认为 `cc-cache-doc/features`。详见 `config/README.md`。
+
 # /team-all — 全流程串联（4 团队）
 
 > 按顺序启动 4 个团队：产品讨论 → 技术设计 → 开发 → 测试，完成一个功能的全流程开发。
@@ -54,7 +56,7 @@ author: Wenchao Chen
 ### 第〇步：初始化
 
 1. 解析参数：功能名称、材料路径、截图
-2. 创建 `features/<name>/` 完整目录结构（requirement/、dev-design/、user-test/、unit-test/、reviews/）
+2. 创建 `{features}/{name}/` 完整目录结构（requirement/、dev-design/、user-test/、unit-test/、reviews/）
 3. 输出启动信息：
 
 ```
@@ -115,7 +117,7 @@ author: Wenchao Chen
 
 ### 最终报告
 
-4 个团队全部完成后，输出最终报告并保存至 `features/<name>/reviews/team-report.md`：
+4 个团队全部完成后，输出最终报告并保存至 `{features}/{name}/reviews/team-report.md`：
 
 ```markdown
 # 全流程团队开发报告
@@ -140,17 +142,17 @@ author: Wenchao Chen
 
 | 产物 | 路径 | 团队 |
 |------|------|------|
-| 需求文档 | features/<name>/requirement/requirement-doc.md | PM |
-| 需求审查 | features/<name>/reviews/requirement-review.md | PM |
-| 设计文档 | features/<name>/dev-design/dev-design-doc.md | Architect |
-| 设计审查 | features/<name>/reviews/dev-design-review.md | Architect |
+| 需求文档 | {features}/{name}/requirement/requirement-doc.md | PM |
+| 需求审查 | {features}/{name}/reviews/requirement-review.md | PM |
+| 设计文档 | {features}/{name}/dev-design/dev-design-doc.md | Architect |
+| 设计审查 | {features}/{name}/reviews/dev-design-review.md | Architect |
 | 后端代码 | <后端项目>/... | Dev |
 | 前端代码 | <前端项目>/... | Dev |
-| 实现审查 | features/<name>/reviews/implementation-review.md | Dev |
-| 测试文档 | features/<name>/user-test/user-test-doc.md | QA |
-| 测试代码 | features/<name>/unit-test/README.md | QA |
-| 测试报告 | features/<name>/reviews/test-execution.md | QA |
-| 团队报告 | features/<name>/reviews/team-report.md | Lead |
+| 实现审查 | {features}/{name}/reviews/implementation-review.md | Dev |
+| 测试文档 | {features}/{name}/user-test/user-test-doc.md | QA |
+| 测试代码 | {features}/{name}/unit-test/README.md | QA |
+| 测试报告 | {features}/{name}/reviews/test-execution.md | QA |
+| 团队报告 | {features}/{name}/reviews/team-report.md | Lead |
 
 ---
 

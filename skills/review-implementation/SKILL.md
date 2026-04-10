@@ -6,9 +6,11 @@ version: 1.0.0
 author: Wenchao Chen
 ---
 
+> **路径变量**：本 skill 使用 `config/defaults.json` 定义的路径变量。`{features}` 默认为 `cc-cache-doc/features`。详见 `config/README.md`。
+
 # 审查功能实现闭环
 
-读取 `features/<name>/` 下的需求文档、开发设计文档和测试文档，对照三份文档逐项扫描实际代码实现是否闭环，输出带 PASS/FAIL 状态的检查清单。
+读取 `{features}/{name}/` 下的需求文档、开发设计文档和测试文档，对照三份文档逐项扫描实际代码实现是否闭环，输出带 PASS/FAIL 状态的检查清单。
 
 ## 使用方式
 
@@ -17,13 +19,13 @@ author: Wenchao Chen
 ```
 
 例如：
-- `/dev/review-implementation financial-dashboard` — 按功能名称，自动读取 `features/` 下对应目录
+- `/dev/review-implementation financial-dashboard` — 按功能名称，自动读取 `{features}/` 下对应目录
 - `/dev/review-implementation 财务看板`
 - `/dev/review-implementation path/to/design-doc.md` — 直接指定设计文档路径
 - `/dev/review-implementation design.md requirement.md test.md` — 同时指定多个文档
 
-> 传入功能名称时，自动读取 `features/<name>/requirement/`、`features/<name>/dev-design/`、`features/<name>/user-test/` 目录
-> 传入文件路径时，直接读取指定文件作为检查基准，不依赖 `features/` 目录结构
+> 传入功能名称时，自动读取 `{features}/{name}/requirement/`、`{features}/{name}/dev-design/`、`{features}/{name}/user-test/` 目录
+> 传入文件路径时，直接读取指定文件作为检查基准，不依赖 `{features}/` 目录结构
 
 ---
 
@@ -65,7 +67,7 @@ author: Wenchao Chen
 2. 合并所有核对表为统一审查报告格式（第五步模板）
 3. 计算汇总统计（各类别 ✅/⚠️/❌ 数量）
 4. 生成整体评估结论（完整闭环 / 存在缺口 / 严重缺口）和问题清单
-5. 保存至 `features/<name>/reviews/implementation-review.md`（第六步）
+5. 保存至 `{features}/{name}/reviews/implementation-review.md`（第六步）
 
 ---
 
@@ -75,21 +77,21 @@ author: Wenchao Chen
 
 1. 若 `$ARGUMENTS` 非空，先判断参数类型：
    - **情况 A — 指定了文档路径**（参数含文件扩展名如 `.md`、`.docx`、`.txt`，或指向已存在的文件路径）：
-     - 直接读取指定文件作为检查基准，**不扫描 `features/` 固定目录**
+     - 直接读取指定文件作为检查基准，**不扫描 `{features}/` 固定目录**
      - 支持多个文件路径（空格分隔），依次读取
      - 审查报告保存到文档所在目录的同级 `reviews/` 下
      - **跳过下方第 3 条的目录读取逻辑**
-   - **情况 B — 仅指定功能名称**（参数不含文件扩展名，如 `xxx` 或 `features/xxx`）：
+   - **情况 B — 仅指定功能名称**（参数不含文件扩展名，如 `xxx` 或 `{features}/xxx`）：
      - 解析功能名称，继续执行下方第 3 条
 2. 若 `$ARGUMENTS` 为空：
-   - 扫描 `features/` 目录，列出含 `dev-design/` 子目录的功能目录
-   - 若只有一个：提示「检测到 `features/<name>/`，是否审查该功能？[Y/n]」
+   - 扫描 `{features}/` 目录，列出含 `dev-design/` 子目录的功能目录
+   - 若只有一个：提示「检测到 `{features}/{name}/`，是否审查该功能？[Y/n]」
    - 若有多个：列出编号清单，提示用户选择
    - 若无匹配：提示「未找到设计文档，请先运行 /dev/gen-design-doc」
 3. **仅情况 B 和空参数时执行** — 读取以下目录下所有文件（逐一读取）：
-   - `features/<name>/dev-design/`（必须存在，作为核心检查基准）
-   - `features/<name>/requirement/`（若存在，提取业务规则和验收标准）
-   - `features/<name>/user-test/`（若存在，提取功能测试用例和验收条件，补充边界场景）
+   - `{features}/{name}/dev-design/`（必须存在，作为核心检查基准）
+   - `{features}/{name}/requirement/`（若存在，提取业务规则和验收标准）
+   - `{features}/{name}/user-test/`（若存在，提取功能测试用例和验收条件，补充边界场景）
 4. 读取 `CLAUDE.md`，了解项目技术栈和目录结构
 
 **文件读取容错**：
@@ -202,7 +204,7 @@ author: Wenchao Chen
 ## 实现闭环审查报告
 **功能**：<功能名称>
 **审查时间**：<日期>
-**基准文档**：features/<name>/dev-design/dev-design-doc.md
+**基准文档**：{features}/{name}/dev-design/dev-design-doc.md
 
 ---
 
@@ -292,7 +294,7 @@ author: Wenchao Chen
 将上述报告内容保存至文件，同时输出到控制台：
 
 **保存路径**：
-- 情况 B / 空参数：`features/<name>/reviews/implementation-review.md`
+- 情况 B / 空参数：`{features}/{name}/reviews/implementation-review.md`
 - 情况 A：文档所在目录的同级 `reviews/implementation-review.md`
 
 （若目录不存在，先创建）
@@ -301,7 +303,7 @@ author: Wenchao Chen
 
 保存后提示：
 ```
-审查报告已保存至 features/<name>/reviews/implementation-review.md
+审查报告已保存至 {features}/{name}/reviews/implementation-review.md
 ```
 
 ---

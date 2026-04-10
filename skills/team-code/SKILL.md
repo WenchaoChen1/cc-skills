@@ -6,6 +6,8 @@ version: 1.0.0
 author: Wenchao Chen
 ---
 
+> **路径变量**：本 skill 使用 `config/defaults.json` 定义的路径变量。`{features}` 默认为 `cc-cache-doc/features`。详见 `config/README.md`。
+
 # /team-code — 开发团队
 
 > 启动开发团队（dev-backend + dev-frontend + dev-reviewer），基于设计文档并行开发后端和前端代码，完成后内部审查。
@@ -15,7 +17,7 @@ author: Wenchao Chen
 
 /team-code <功能名称>
 
-前置条件：features/<功能名称>/dev-design/dev-design-doc.md 必须存在
+前置条件：{features}/{name}/dev-design/dev-design-doc.md 必须存在
 
 ---
 
@@ -34,7 +36,7 @@ author: Wenchao Chen
 ### 第一步：初始化
 
 1. 解析参数：功能名称
-2. 检查 features/<name>/dev-design/dev-design-doc.md 是否存在
+2. 检查 {features}/{name}/dev-design/dev-design-doc.md 是否存在
    - 不存在 → 提示「缺少设计文档，请先运行 /team-design 或 /dev/gen-design-doc」
 3. 读取 CLAUDE.md 了解项目结构
 
@@ -61,7 +63,7 @@ author: Wenchao Chen
 ### 第三步：dev-reviewer 审查实现
 
 - 遵循 /dev/review-implementation 完整流程（7 个核对维度）
-- 产出：features/<name>/reviews/implementation-review.md
+- 产出：{features}/{name}/reviews/implementation-review.md
 
 ### 第四步：修复问题（若有）
 
@@ -77,7 +79,7 @@ author: Wenchao Chen
 ▌ dev-backend：新建 N 文件，修改 N 文件
 ▌ dev-frontend：新建 N 文件，修改 N 文件
 ▌ dev-reviewer：审查结论 <完整闭环/存在缺口>，严重问题 N 个（已修复 N 个）
-▌ 审查报告：features/<name>/reviews/implementation-review.md
+▌ 审查报告：{features}/{name}/reviews/implementation-review.md
 
 下一步：运行 /team-test <名称> 启动测试团队
 ```

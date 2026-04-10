@@ -6,6 +6,8 @@ version: 1.0.0
 author: Wenchao Chen
 ---
 
+> **路径变量**：本 skill 使用 `config/defaults.json` 定义的路径变量。`{features}` 默认为 `cc-cache-doc/features`。详见 `config/README.md`。
+
 # 审查产品功能需求文档
 
 站在"开发能否写代码、QA 能否写用例、PM 能否签字"三个角色视角，深度审查需求文档，输出按严重度排序的问题清单。
@@ -17,13 +19,13 @@ author: Wenchao Chen
 ```
 
 例如：
-- `/review-requirement-doc financial-dashboard` — 按功能名称，自动读取 `features/financial-dashboard/requirement/` 目录
+- `/review-requirement-doc financial-dashboard` — 按功能名称，自动读取 `{features}/financial-dashboard/requirement/` 目录
 - `/review-requirement-doc 财务看板`
 - `/review-requirement-doc path/to/my-requirement.md` — 直接指定文档路径，跳过固定目录扫描
 - `/review-requirement-doc docs/需求v2.md screenshots/page1.png` — 指定文档 + 截图
 
-> 传入功能名称时，对应 `features/<name>/` 文件夹，自动读取 `requirement/` 目录下所有文件
-> 传入文件路径时，直接读取指定文件，不依赖 `features/` 目录结构
+> 传入功能名称时，对应 `{features}/{name}/` 文件夹，自动读取 `requirement/` 目录下所有文件
+> 传入文件路径时，直接读取指定文件，不依赖 `{features}/` 目录结构
 
 ---
 
@@ -33,24 +35,24 @@ author: Wenchao Chen
 
 1. 若 `$ARGUMENTS` 非空，先判断参数类型：
    - **情况 A — 指定了文档路径**（参数含文件扩展名如 `.md`、`.docx`、`.txt`，或指向一个已存在的文件路径）：
-     - 直接读取指定的文件作为待审查文档，**不扫描 `features/` 固定目录**
+     - 直接读取指定的文件作为待审查文档，**不扫描 `{features}/` 固定目录**
      - 支持同时传入多个文件路径（空格分隔），依次读取；若含截图路径一并读取
      - 审查报告保存路径：保存到文档所在目录的同级 `reviews/` 下（如 `path/to/reviews/requirement-review.md`）；若文档在项目根目录或无明确归属目录，保存到 `reviews/requirement-review.md`
      - **跳过下方第 3、4 条的目录扫描逻辑**
-   - **情况 B — 仅指定功能名称**（参数不含文件扩展名，如 `xxx` 或 `features/xxx`）：
-     - 解析功能名称（支持 `features/xxx` 或直接 `xxx` 两种写法），定位 `features/<name>/requirement/requirement-doc.md`
+   - **情况 B — 仅指定功能名称**（参数不含文件扩展名，如 `xxx` 或 `{features}/xxx`）：
+     - 解析功能名称（支持 `{features}/xxx` 或直接 `xxx` 两种写法），定位 `{features}/{name}/requirement/requirement-doc.md`
      - 继续执行下方第 3、4 条
 2. 若 `$ARGUMENTS` 为空：
-   - 扫描 `features/` 目录，列出所有子目录
-   - 若只有一个：提示「检测到 `features/<name>/`，是否审查该功能？[Y/n]」
+   - 扫描 `{features}/` 目录，列出所有子目录
+   - 若只有一个：提示「检测到 `{features}/{name}/`，是否审查该功能？[Y/n]」
    - 若有多个：列出编号清单，提示用户选择
-   - 若 `features/` 不存在或为空：提示「未找到功能目录，请提供功能名称，例如：/review-requirement-doc my-feature」
-3. **仅情况 B 和空参数时执行**：读取 `features/<name>/requirement/` 目录下所有文件（逐一读取），包括截图
-4. **仅情况 B 和空参数时执行**：若 `features/<name>/` 下有原始需求子目录，也扫描其中的截图并读取
+   - 若 `{features}/` 不存在或为空：提示「未找到功能目录，请提供功能名称，例如：/review-requirement-doc my-feature」
+3. **仅情况 B 和空参数时执行**：读取 `{features}/{name}/requirement/` 目录下所有文件（逐一读取），包括截图
+4. **仅情况 B 和空参数时执行**：若 `{features}/{name}/` 下有原始需求子目录，也扫描其中的截图并读取
 
 **文件读取容错**：
 - 目录或文件不存在 → 提示「缺少需求文档，请先运行 `/gen-requirement-doc <功能名称>`」，不继续后续步骤
-- 文件存在但内容为空 → 提示「文件存在但内容为空，请检查 `features/<name>/requirement/requirement-doc.md`」
+- 文件存在但内容为空 → 提示「文件存在但内容为空，请检查 `{features}/{name}/requirement/requirement-doc.md`」
 - 编码问题（乱码） → 提示「文件编码异常，建议重新保存为 UTF-8」
 
 ---
@@ -152,7 +154,7 @@ author: Wenchao Chen
 ## 需求文档审查报告
 
 **功能**：<功能名称>
-**文档路径**：features/<name>/requirement/requirement-doc.md
+**文档路径**：{features}/{name}/requirement/requirement-doc.md
 **审查时间**：<日期>
 **整体评估**：<可直接用于设计 / 需修改后再用 / 需重新梳理>
 
@@ -291,7 +293,7 @@ author: Wenchao Chen
 将上述报告内容保存至文件，同时输出到控制台：
 
 **保存路径**：
-- 情况 B / 空参数：`features/<name>/reviews/requirement-review.md`
+- 情况 B / 空参数：`{features}/{name}/reviews/requirement-review.md`
 - 情况 A：文档所在目录的同级 `reviews/requirement-review.md`（如 `path/to/reviews/requirement-review.md`）；若文档在项目根目录，保存到 `reviews/requirement-review.md`
 
 （若目录不存在，先创建）
@@ -300,7 +302,7 @@ author: Wenchao Chen
 
 保存后提示：
 ```
-审查报告已保存至 features/<name>/reviews/requirement-review.md
+审查报告已保存至 {features}/{name}/reviews/requirement-review.md
 ```
 
 ---

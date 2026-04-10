@@ -6,9 +6,11 @@ version: 1.0.0
 author: Wenchao Chen
 ---
 
+> **路径变量**：本 skill 使用 `config/defaults.json` 定义的路径变量。`{features}` 默认为 `cc-cache-doc/features`。详见 `config/README.md`。
+
 # 生成手动测试文档
 
-根据 `features/<name>/` 下的需求文档和设计文档，生成供测试人员点击验证的手动测试文档。
+根据 `{features}/{name}/` 下的需求文档和设计文档，生成供测试人员点击验证的手动测试文档。
 文档包含功能测试步骤、边界/异常场景、UI 交互验证和验收检查清单四个部分。
 
 ## 使用方式
@@ -18,12 +20,12 @@ author: Wenchao Chen
 ```
 
 例如：
-- `/gen-user-test-doc financial-dashboard` — 按功能名称，自动读取 `features/` 下对应目录
+- `/gen-user-test-doc financial-dashboard` — 按功能名称，自动读取 `{features}/` 下对应目录
 - `/gen-user-test-doc 财务看板`
 - `/gen-user-test-doc path/to/design-doc.md path/to/requirement.md` — 直接指定文档路径
 
-> 传入功能名称时，自动读取 `features/<name>/requirement/` 和 `features/<name>/dev-design/` 目录
-> 传入文件路径时，直接读取指定文件，不依赖 `features/` 目录结构
+> 传入功能名称时，自动读取 `{features}/{name}/requirement/` 和 `{features}/{name}/dev-design/` 目录
+> 传入文件路径时，直接读取指定文件，不依赖 `{features}/` 目录结构
 
 ---
 
@@ -33,27 +35,27 @@ author: Wenchao Chen
 
 1. 若 `$ARGUMENTS` 非空，先判断参数类型：
    - **情况 A — 指定了文档路径**（参数含文件扩展名如 `.md`、`.docx`、`.txt`，或指向已存在的文件路径）：
-     - 直接读取指定文件作为输入材料，**不扫描 `features/` 固定目录**
+     - 直接读取指定文件作为输入材料，**不扫描 `{features}/` 固定目录**
      - 支持多个文件路径（空格分隔），依次读取
      - 测试文档保存到文档所在目录的同级 `user-test/` 下
-     - **跳过下方第 3、4 条**（目录扫描和 features/ 路径的重复检查均不执行）
+     - **跳过下方第 3、4 条**（目录扫描和 `{features}/` 路径的重复检查均不执行）
      - 保存前自行检查输出路径下是否已有同名文件，若已存在则按第 3 条相同逻辑提示用户选择
-   - **情况 B — 仅指定功能名称**（参数不含文件扩展名，如 `xxx` 或 `features/xxx`）：
+   - **情况 B — 仅指定功能名称**（参数不含文件扩展名，如 `xxx` 或 `{features}/xxx`）：
      - 解析功能名称，继续执行下方第 3、4 条
 2. 若 `$ARGUMENTS` 为空：
-   - 扫描 `features/` 目录，列出所有子目录
-   - 若只有一个：提示「检测到 `features/<name>/`，是否生成该功能的测试文档？[Y/n]」
+   - 扫描 `{features}/` 目录，列出所有子目录
+   - 若只有一个：提示「检测到 `{features}/{name}/`，是否生成该功能的测试文档？[Y/n]」
    - 若有多个：列出编号清单，提示用户选择
    - 若无匹配：提示「未找到功能目录，请提供功能名称，例如：/gen-user-test-doc my-feature」
-3. **仅情况 B 和空参数时执行 — 重复创建检查**：若 `features/<name>/user-test/user-test-doc.md` 已存在：
+3. **仅情况 B 和空参数时执行 — 重复创建检查**：若 `{features}/{name}/user-test/user-test-doc.md` 已存在：
    ```
-   ⚠️ 文件已存在：features/<name>/user-test/user-test-doc.md
+   ⚠️ 文件已存在：{features}/{name}/user-test/user-test-doc.md
    选项：A. 覆盖（原文件被替换）  B. 取消（默认）  C. 查看现有文件内容
    ```
    等待用户选择，默认取消。
 4. **仅情况 B 和空参数时执行** — 读取以下目录下所有文件（逐一读取）：
-   - `features/<name>/requirement/`（功能清单、业务规则、边界条件）
-   - `features/<name>/dev-design/`（UI 交互行为、接口规格、异常处理）
+   - `{features}/{name}/requirement/`（功能清单、业务规则、边界条件）
+   - `{features}/{name}/dev-design/`（UI 交互行为、接口规格、异常处理）
    **文件读取容错**：
    - `requirement/` 目录不存在 → 提示「缺少需求文档，请先运行 `/gen-requirement-doc <功能名称>`」，不继续后续步骤
    - `dev-design/` 目录不存在 → 提示「缺少设计文档，请先运行 `/dev/gen-design-doc <功能名称>`」，不继续后续步骤
@@ -78,14 +80,14 @@ author: Wenchao Chen
 ### 第四步：保存文档
 
 **保存路径**：
-- 情况 B / 空参数：`features/<name>/user-test/user-test-doc.md`
+- 情况 B / 空参数：`{features}/{name}/user-test/user-test-doc.md`
 - 情况 A：文档所在目录的同级 `user-test/user-test-doc.md`
 
 （若目录不存在，先创建）
 
 保存后提示：
 ```
-手动测试文档已保存至 features/<name>/user-test/user-test-doc.md
+手动测试文档已保存至 {features}/{name}/user-test/user-test-doc.md
 下一步：运行 /dev/run <功能名称> 开始开发
 ```
 
@@ -97,7 +99,7 @@ author: Wenchao Chen
 # [功能名称] 手动测试文档
 
 > 生成时间：<日期>
-> 基准文档：features/<name>/requirement/requirement-doc.md + features/<name>/dev-design/dev-design-doc.md
+> 基准文档：{features}/{name}/requirement/requirement-doc.md + {features}/{name}/dev-design/dev-design-doc.md
 > 测试环境：<填写实际测试环境 URL>
 > 测试人员：___________
 > 测试日期：___________

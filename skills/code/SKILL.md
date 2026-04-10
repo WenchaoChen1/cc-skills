@@ -8,9 +8,9 @@ author: Wenchao Chen
 
 # 写代码 — 统一代码编写
 
-统一代码编写入口。加载规则和公共规范，自动检测技术栈，根据设计文档完成代码编写。
+统一代码编写入口。加载路径配置和规则，自动检测技术栈，根据设计文档完成代码编写。
 
-> **本 skill 包含以下子文件，按条件加载**：
+> **本 skill 包含以下子文件**：
 > - `common.md` — 公共开发规范（始终加载）
 > - `java.md` — Java 后端实现逻辑
 > - `python.md` — Python 后端实现逻辑
@@ -29,70 +29,91 @@ author: Wenchao Chen
 - `/code benchmark-entry --backend-only`（仅后端，自动检测 Java/Python）
 - `/code 财务看板 --frontend-only`（仅前端）
 
-> **功能目录识别**：
-> - 有参数：直接使用 `features/<功能名称>/`
-> - 无参数：扫描 `features/` 列出含 `dev-design/` 子目录的功能目录供选择
-
 ---
 
 ## 执行流程
 
 ```
-第零步：加载规则
+第零步：加载路径配置
     ↓
-第一步：加载公共规范（common.md）
+第一步：加载规则（rules）
     ↓
-第二步：读取材料（CLAUDE.md + 设计文档 + 需求文档）
+第二步：加载公共规范（common.md）
     ↓
-第三步：检测技术栈
+第三步：读取材料（CLAUDE.md + 设计文档 + 需求文档）
     ↓
-第四步：探索现有代码模式
+第四步：检测技术栈
     ↓
-第五步：执行开发（路由到 java.md / python.md / frontend.md）
+第五步：探索现有代码模式
     ↓
-第六步：合并与交叉验证（run.md 逻辑）
+第六步：执行开发（路由到 java.md / python.md / frontend.md）
+    ↓
+第七步：合并与交叉验证（run.md）
 ```
 
 ---
 
-## 第零步：加载规则
+## 第零步：加载路径配置
 
-> **本步骤在任何开发操作前必须执行，不可跳过。**
+> **最先执行，不可跳过。后续所有路径从此配置获取。**
 
-### 0-A. 检测当前项目规则
+读取路径配置（详见 `config/README.md`），加载顺序：
 
-按优先级搜索并加载（高优先级覆盖低优先级）：
+1. `<project>/cc-cache-doc/cc-skills.json`（项目配置，最高优先级）
+2. `~/.cc-cache-doc/cc-skills.json`（个人配置）
+3. 插件 `config/defaults.json`（默认值）
+
+合并后获得以下路径变量：
+
+| 变量 | 默认值 |
+|------|--------|
+| `{features}` | `cc-cache-doc/features` |
+| `{rules}` | `cc-cache-doc/rules` |
+| `{standards}` | `cc-cache-doc/standards` |
+| `{personal_rules}` | `~/.cc-cache-doc/rules` |
+| `{personal_standards}` | `~/.cc-cache-doc/standards` |
+
+### 功能目录识别
+
+- 有参数：使用 `{features}/{name}/`
+- 无参数：扫描 `{features}/` 列出含 `dev-design/` 子目录的功能目录供选择
+
+---
+
+## 第一步：加载规则
+
+> **不可跳过。**
+
+### 1-A. 加载项目规则
+
+按优先级搜索并加载：
 
 | 优先级 | 位置 | 说明 |
 |--------|------|------|
-| 1（最高） | 当前项目 `<project>/standards/` | 项目专属规范（architecture.md、coding.md、git.md） |
-| 2 | 当前项目 `.claude/rules/` | 项目级 Claude 规则 |
-| 3 | 用户目录 `~/.claude/rules/` | 全局 Claude 规则 |
+| 1（最高） | `{standards}` | 项目规范（architecture.md、coding.md、git.md） |
+| 2 | `{rules}` | 项目规则 |
+| 3 | `{personal_rules}` | 个人规则 |
 | 4（最低） | 本插件 `rules/` 目录 | 插件自带规则（兜底） |
 
-> **后续会增加更多检测路径，此处预留扩展点。**
-
-### 0-B. 按技术栈加载语言规则
-
-检测到的技术栈 → 加载对应语言规则：
+### 1-B. 按技术栈加载语言规则
 
 | 技术栈 | 规则目录 |
 |--------|---------|
-| Java | `rules/java/`（coding-style、patterns、security、testing、hooks） |
-| Python | `rules/python/`（coding-style、patterns、security、testing、hooks） |
+| Java | `rules/java/` |
+| Python | `rules/python/` |
 | TypeScript/JavaScript | `rules/typescript/` + `rules/web/` |
 
-### 0-C. 加载通用规则
+### 1-C. 加载通用规则
 
-始终加载 `rules/common/`：coding-style、security、testing、patterns、performance。
+始终加载 `rules/common/`。
 
 冲突时：项目规则 > 语言规则 > 通用规则。
 
 ---
 
-## 第一步：加载公共规范
+## 第二步：加载公共规范
 
-> 加载本目录下的 `common.md`，以下规则贯穿整个开发过程。
+> 加载本目录下 `common.md`，以下规则贯穿整个开发过程。
 
 - **规则 A — 先读后写**：任何文件动笔之前，必须先读至少 2 个同类现有文件
 - **规则 B — 改动最小化**：不修改无关文件，不做"顺便优化"
@@ -103,30 +124,34 @@ author: Wenchao Chen
 
 ---
 
-## 第二步：读取材料
+## 第三步：读取材料
 
-### 2-A. 读 CLAUDE.md + 代码规范
+### 3-A. 读 CLAUDE.md + 代码规范
 
 读取项目 `CLAUDE.md`，了解技术栈、目录结构、构建命令。
-读取代码规范（三层优先级：子项目 > 项目 > 个人）。
+读取 `{standards}` 下的代码规范（优先级：子项目 > 项目 > 个人）。
 
 > 后续所有路径、包名、框架版本以 CLAUDE.md 和实际代码为准，**不使用预设值**。
 
-### 2-B. 读设计文档
+### 3-B. 读设计文档
 
-读取 `features/<功能名称>/dev-design/` 目录下所有文件，提取：
+读取 `{features}/{name}/dev-design/` 目录下所有文件，提取：
 - 后端接口列表（第 4 章）
 - 数据库表结构（第 5 章）
 - 前端页面路由（第 2、3 章）
 - 业务规则和异常处理（第 6、7 章）
 
-### 2-C. 读需求文档（补充）
+**容错**：
+- 目录不存在 → 提示「缺少设计文档，请先生成设计文档」，终止
+- 文件为空 → 提示「文件存在但内容为空」
 
-若 `features/<功能名称>/requirement/` 存在，补充边界条件、必填规则、权限。
+### 3-C. 读需求文档（补充）
+
+若 `{features}/{name}/requirement/` 存在，补充边界条件、必填规则、权限。
 
 ---
 
-## 第三步：检测技术栈
+## 第四步：检测技术栈
 
 从 CLAUDE.md 和设计文档判断涉及哪些技术栈：
 
@@ -140,13 +165,13 @@ author: Wenchao Chen
 
 ---
 
-## 第四步：探索现有代码模式
+## 第五步：探索现有代码模式
 
-按检测到的技术栈，读取对应参考文件（详见各子文件）。
+按检测到的技术栈，读取对应参考文件（详见各子文件中的「前置信息提取」章节）。
 
 ---
 
-## 第五步：执行开发
+## 第六步：执行开发
 
 根据检测结果路由到对应子文件执行：
 
@@ -156,15 +181,15 @@ author: Wenchao Chen
 | Python 后端 | `python.md` | Model → Schema → Service → Router → 注册路由 → 自检 |
 | 前端 | `frontend.md` | API Service → 页面组件 → 路由注册 → 自检 |
 
-### 并行模式（Agent Teams 可用）
-同时启动所有涉及技术栈的 Agent 并行执行。
+### 并行模式（并行代理可用时）
+同时启动所有涉及技术栈的代理并行执行。
 
 ### 顺序模式
 按顺序：Java 后端 → Python 后端 → 前端，每个后端完成后等待确认。
 
 ---
 
-## 第六步：合并与交叉验证
+## 第七步：合并与交叉验证
 
 > 使用 `run.md` 中的合并逻辑。
 
@@ -198,14 +223,15 @@ author: Wenchao Chen
 - ✓/⚠ 字段名一致性
 - ✓/⚠ 接口路径一致性
 
-下一步：/dev/review-implementation <功能名称>
+下一步：/dev/review-implementation {name}
 ```
 
 ---
 
 ## 规则
 
-- **第零步加载规则不可跳过**
+- **第零步加载配置、第一步加载规则均不可跳过**
+- 所有路径从配置获取，不硬编码
 - 公共规范统一执行一次，不在每个技术栈中重复
 - 后端实现对照设计文档第 4 章，前端实现对照第 2 章
 - 不做设计文档未要求的功能

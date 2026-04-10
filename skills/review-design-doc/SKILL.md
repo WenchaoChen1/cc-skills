@@ -6,9 +6,11 @@ version: 1.0.0
 author: Wenchao Chen
 ---
 
+> **路径变量**：本 skill 使用 `config/defaults.json` 定义的路径变量。`{features}` 默认为 `cc-cache-doc/features`。详见 `config/README.md`。
+
 # 审查功能设计文档
 
-读取 `features/<name>/` 下的产品需求文档和开发设计文档，检查设计是否完整覆盖需求、接口是否规范、前后端是否一致。
+读取 `{features}/{name}/` 下的产品需求文档和开发设计文档，检查设计是否完整覆盖需求、接口是否规范、前后端是否一致。
 
 ## 使用方式
 
@@ -17,13 +19,13 @@ author: Wenchao Chen
 ```
 
 例如：
-- `/dev/review-design-doc financial-dashboard` — 按功能名称，自动读取 `features/` 下对应目录
+- `/dev/review-design-doc financial-dashboard` — 按功能名称，自动读取 `{features}/` 下对应目录
 - `/dev/review-design-doc 财务看板`
 - `/dev/review-design-doc path/to/design-doc.md` — 直接指定设计文档路径
 - `/dev/review-design-doc design.md requirement.md` — 同时指定多个文档
 
-> 传入功能名称时，自动读取 `features/<name>/requirement/` 和 `features/<name>/dev-design/` 目录下所有文件
-> 传入文件路径时，直接读取指定文件，不依赖 `features/` 目录结构
+> 传入功能名称时，自动读取 `{features}/{name}/requirement/` 和 `{features}/{name}/dev-design/` 目录下所有文件
+> 传入文件路径时，直接读取指定文件，不依赖 `{features}/` 目录结构
 
 ---
 
@@ -33,15 +35,15 @@ author: Wenchao Chen
 
 1. 若 `$ARGUMENTS` 非空，先判断参数类型：
    - **情况 A — 指定了文档路径**（参数含文件扩展名如 `.md`、`.docx`、`.txt`，或指向已存在的文件路径）：
-     - 直接读取指定文件作为待审查材料，**不扫描 `features/` 固定目录**
+     - 直接读取指定文件作为待审查材料，**不扫描 `{features}/` 固定目录**
      - 支持多个文件路径（空格分隔），依次读取；截图路径一并读取
      - 审查报告保存到文档所在目录的同级 `reviews/` 下
      - **跳过下方第 3 条的目录读取逻辑**
-   - **情况 B — 仅指定功能名称**（参数不含文件扩展名，如 `xxx` 或 `features/xxx`）：
+   - **情况 B — 仅指定功能名称**（参数不含文件扩展名，如 `xxx` 或 `{features}/xxx`）：
      - 解析功能名称，继续执行下方第 3 条
 2. 若 `$ARGUMENTS` 为空：
-   - 扫描 `features/` 目录，列出含 `dev-design/` 子目录的功能目录
-   - 若只有一个：提示「检测到 `features/<name>/dev-design/`，是否审查该功能？[Y/n]」
+   - 扫描 `{features}/` 目录，列出含 `dev-design/` 子目录的功能目录
+   - 若只有一个：提示「检测到 `{features}/{name}/dev-design/`，是否审查该功能？[Y/n]」
    - 若有多个：列出编号清单，提示用户选择
    - 若无匹配：提示「未找到设计文档，请先运行 /dev/gen-design-doc 生成设计文档」
 3. **仅情况 B 和空参数时执行 — 分阶段读取文件**（避免一次性读取多个大文件导致上下文溢出）：
@@ -180,7 +182,7 @@ author: Wenchao Chen
 ```
 ## 设计文档审查报告
 **功能**：<功能名称>
-**文档路径**：features/<name>/dev-design/dev-design-doc.md
+**文档路径**：{features}/{name}/dev-design/dev-design-doc.md
 **审查时间**：<日期>
 **是否有需求文档**：是 / 否（仅做设计内部审查）
 **整体评估结论**：<可直接开发 / 修改后开发 / 需重新设计>
@@ -268,7 +270,7 @@ author: Wenchao Chen
 将上述报告内容保存至文件，同时输出到控制台：
 
 **保存路径**：
-- 情况 B / 空参数：`features/<name>/reviews/dev-design-review.md`
+- 情况 B / 空参数：`{features}/{name}/reviews/dev-design-review.md`
 - 情况 A：文档所在目录的同级 `reviews/dev-design-review.md`
 
 （若目录不存在，先创建）
@@ -277,7 +279,7 @@ author: Wenchao Chen
 
 保存后提示：
 ```
-审查报告已保存至 features/<name>/reviews/dev-design-review.md
+审查报告已保存至 {features}/{name}/reviews/dev-design-review.md
 ```
 
 ---

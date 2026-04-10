@@ -6,6 +6,8 @@ version: 1.0.0
 author: Wenchao Chen
 ---
 
+> **路径变量**：本 skill 使用 `config/defaults.json` 定义的路径变量。`{features}` 默认为 `cc-cache-doc/features`。详见 `config/README.md`。
+
 # 一键端到端开发管道
 
 从需求材料出发，自动执行 9 步开发工作流（需求→审查→设计→审查→测试文档→开发→审查→单元测试→执行测试），中间通过自动门控决定继续或暂停。
@@ -25,7 +27,7 @@ author: Wenchao Chen
 
 | 参数 | 说明 |
 |------|------|
-| `<功能名>` | 功能目录名（对应 `features/<功能名>/`），必填 |
+| `<功能名>` | 功能目录名（对应 `{features}/{name}/`），必填 |
 | `[材料路径]` | 需求原始文件（.md/.txt/.docx），可选 |
 | `[截图...]` | 截图文件路径，可传多个，可选 |
 | `--resume` | 从上次中断处继续（读取 `.pipeline-status.json`） |
@@ -82,7 +84,7 @@ author: Wenchao Chen
 | 项目 | 说明 |
 |------|------|
 | **任务** | 按 `/gen-user-test-doc` 完整流程生成测试文档 |
-| **必须接收** | ① `features/<name>/requirement/requirement-doc.md` 全文 ② `features/<name>/dev-design/dev-design-doc.md` 全文 ③ `/gen-user-test-doc` skill 的完整指令 ④ 管道上下文：自动覆盖已有文件 |
+| **必须接收** | ① `{features}/{name}/requirement/requirement-doc.md` 全文 ② `{features}/{name}/dev-design/dev-design-doc.md` 全文 ③ `/gen-user-test-doc` skill 的完整指令 ④ 管道上下文：自动覆盖已有文件 |
 | **输出** | `user-test-doc.md` 文件 + 步骤完成摘要（P0 测试用例数、边界场景数） |
 
 **Agent B — 步骤 6（run-dev-design-doc）：**
@@ -90,7 +92,7 @@ author: Wenchao Chen
 | 项目 | 说明 |
 |------|------|
 | **任务** | 按 `/dev/run` 完整流程开发代码（含自身的并行策略，允许内部进一步并行后端/前端） |
-| **必须接收** | ① `features/<name>/dev-design/dev-design-doc.md` 全文 ② `features/<name>/requirement/requirement-doc.md` 全文（若存在） ③ CLAUDE.md 全文 ④ `/dev/run` skill 的完整指令（含并行策略） ⑤ 管道上下文：阶段一完成后自动继续阶段二（不暂停） |
+| **必须接收** | ① `{features}/{name}/dev-design/dev-design-doc.md` 全文 ② `{features}/{name}/requirement/requirement-doc.md` 全文（若存在） ③ CLAUDE.md 全文 ④ `/dev/run` skill 的完整指令（含并行策略） ⑤ 管道上下文：阶段一完成后自动继续阶段二（不暂停） |
 | **输出** | 代码文件 + 步骤完成摘要（新建/修改文件清单） |
 
 ### 主线程合并（步骤 5+6 完成后）
@@ -123,7 +125,7 @@ author: Wenchao Chen
    - 检查 `--resume` 和 `--from=N` 标志
 
 2. **检查已有状态**：
-   - 若 `features/<name>/.pipeline-status.json` 存在且未传 `--resume` 或 `--from`：
+   - 若 `{features}/{name}/.pipeline-status.json` 存在且未传 `--resume` 或 `--from`：
      ```
      ⚠️ 检测到功能「<name>」已有管道执行记录（上次停在步骤 N）。
      选项：A. 从中断处继续  B. 从头开始（覆盖）  C. 取消
@@ -132,7 +134,7 @@ author: Wenchao Chen
    - 若传了 `--from=N`：从第 N 步开始，校验前置产物存在
 
 3. **初始化状态文件**：
-   创建或更新 `features/<name>/.pipeline-status.json`：
+   创建或更新 `{features}/{name}/.pipeline-status.json`：
    ```json
    {
      "feature": "<name>",
@@ -167,7 +169,7 @@ author: Wenchao Chen
 ### 步骤 1：生成需求文档（gen-requirement-doc）
 
 **前置检查**：
-- 若 `features/<name>/requirement/requirement-doc.md` 已存在 → 自动覆盖（不询问）
+- 若 `{features}/{name}/requirement/requirement-doc.md` 已存在 → 自动覆盖（不询问）
 - 更新状态：`steps.1.status = "in_progress"`
 
 **执行**：
@@ -181,7 +183,7 @@ author: Wenchao Chen
 - 输出存档摘要：
   ```
   【步骤 1 完成】需求文档已生成
-  ▌ 路径：features/<name>/requirement/requirement-doc.md
+  ▌ 路径：{features}/{name}/requirement/requirement-doc.md
   ▌ 功能点：P0 x N, P1 x N, P2 x N
   ▌ 待确认项：N 个
   ▌ 耗时：N 分钟
@@ -193,7 +195,7 @@ author: Wenchao Chen
 
 **执行**：按 `/review-requirement-doc <name>` 完整流程执行
 
-**门控策略**（读取保存的审查报告 `features/<name>/reviews/requirement-review.md` 中的结构化元数据）：
+**门控策略**（读取保存的审查报告 `{features}/{name}/reviews/requirement-review.md` 中的结构化元数据）：
 
 | 严重问题数 | 处理 |
 |-----------|------|
@@ -225,7 +227,7 @@ author: Wenchao Chen
 ### 步骤 3：生成设计文档（gen-dev-design-doc）
 
 **前置检查**：
-- 若 `features/<name>/dev-design/dev-design-doc.md` 已存在 → 自动覆盖
+- 若 `{features}/{name}/dev-design/dev-design-doc.md` 已存在 → 自动覆盖
 - 更新状态：`steps.3.status = "in_progress"`
 
 **执行**：
@@ -238,7 +240,7 @@ author: Wenchao Chen
 - 输出存档摘要：
   ```
   【步骤 3 完成】设计文档已生成
-  ▌ 路径：features/<name>/dev-design/dev-design-doc.md
+  ▌ 路径：{features}/{name}/dev-design/dev-design-doc.md
   ▌ 接口数：N 个
   ▌ 数据表：N 张
   ▌ 耗时：N 分钟
@@ -267,7 +269,7 @@ author: Wenchao Chen
 > **Agent Teams 模式**：步骤 5 与步骤 6 并行启动（见「并行策略」章节）。
 
 **前置检查**：
-- 若 `features/<name>/user-test/user-test-doc.md` 已存在 → 自动覆盖
+- 若 `{features}/{name}/user-test/user-test-doc.md` 已存在 → 自动覆盖
 - 更新状态：`steps.5.status = "in_progress"`
 
 **执行**：
@@ -279,7 +281,7 @@ author: Wenchao Chen
 - 输出存档摘要：
   ```
   【步骤 5 完成】测试文档已生成
-  ▌ 路径：features/<name>/user-test/user-test-doc.md
+  ▌ 路径：{features}/{name}/user-test/user-test-doc.md
   ▌ P0 测试用例：N 条
   ▌ 边界场景：N 条
   ▌ 耗时：N 分钟
@@ -372,7 +374,7 @@ author: Wenchao Chen
 
 ## 管道完成：输出最终报告
 
-9 步全部完成后，输出管道执行总览，同时保存至 `features/<name>/reviews/pipeline-report.md`：
+9 步全部完成后，输出管道执行总览，同时保存至 `{features}/{name}/reviews/pipeline-report.md`：
 
 ```markdown
 # E2E 管道执行报告
@@ -403,17 +405,17 @@ author: Wenchao Chen
 
 | 产物 | 路径 | 状态 |
 |------|------|------|
-| 需求文档 | `features/<name>/requirement/requirement-doc.md` | ✅ |
-| 需求审查 | `features/<name>/reviews/requirement-review.md` | ✅ |
-| 设计文档 | `features/<name>/dev-design/dev-design-doc.md` | ✅ |
-| 设计审查 | `features/<name>/reviews/dev-design-review.md` | ✅ |
-| 测试文档 | `features/<name>/user-test/user-test-doc.md` | ✅ |
+| 需求文档 | `{features}/{name}/requirement/requirement-doc.md` | ✅ |
+| 需求审查 | `{features}/{name}/reviews/requirement-review.md` | ✅ |
+| 设计文档 | `{features}/{name}/dev-design/dev-design-doc.md` | ✅ |
+| 设计审查 | `{features}/{name}/reviews/dev-design-review.md` | ✅ |
+| 测试文档 | `{features}/{name}/user-test/user-test-doc.md` | ✅ |
 | 后端代码 | `<后端项目>/...` | ✅ |
 | 前端代码 | `<前端项目>/...` | ✅ |
-| 实现审查 | `features/<name>/reviews/implementation-review.md` | ✅ |
-| 单元测试 | `features/<name>/unit-test/README.md` | ✅ |
+| 实现审查 | `{features}/{name}/reviews/implementation-review.md` | ✅ |
+| 单元测试 | `{features}/{name}/unit-test/README.md` | ✅ |
 | 测试报告 | （控制台输出） | ✅ |
-| 管道报告 | `features/<name>/reviews/pipeline-report.md` | ✅ |
+| 管道报告 | `{features}/{name}/reviews/pipeline-report.md` | ✅ |
 
 ---
 
@@ -476,7 +478,7 @@ author: Wenchao Chen
 
 ## 断点续跑
 
-**状态文件**：`features/<name>/.pipeline-status.json`
+**状态文件**：`{features}/{name}/.pipeline-status.json`
 
 - 每个步骤开始/完成时更新状态
 - `--resume`：读取 `currentStep`，从该步骤重新执行
@@ -512,4 +514,4 @@ author: Wenchao Chen
 - 自动修复仅尝试 1 轮，不循环修复（防止越改越乱）
 - 状态文件 `.pipeline-status.json` 不提交到 Git（建议加入 `.gitignore`）
 - 管道中断后，已完成的步骤产物保留，不回滚
-- 最终报告必须同时输出到控制台和保存到 `features/<name>/reviews/pipeline-report.md`
+- 最终报告必须同时输出到控制台和保存到 `{features}/{name}/reviews/pipeline-report.md`
