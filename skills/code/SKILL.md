@@ -58,7 +58,7 @@ author: Wenchao Chen
 > **最先执行，不可跳过。后续所有路径从此配置获取。**
 > 详见 `config/README.md`。
 
-从用户的 `cc-skills.json` 配置文件读取路径变量（`{project_root}`、`{personal_root}`、`{features}`、`{rules}`、`{standards}`），后续所有 `{变量}` 引用的路径均从此配置获取。
+从用户的 `cc-skills.json` 读取路径变量。所有路径基于 `<project>` 或 `~` 拼接：`{基础路径}/{根变量}/{可配变量}/{name}/固定后缀`，每层可为空。
 
 ---
 
