@@ -1,11 +1,3 @@
----
-name: frontend
-description: 基于设计文档实现前端代码，支持 React/Vue/Angular 等框架
-tags: [development, frontend]
-version: 1.0.0
-author: Wenchao Chen
----
-
 # /dev/frontend — 前端开发
 
 > 基于设计文档实现前端代码。

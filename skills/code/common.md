@@ -1,11 +1,3 @@
----
-name: dev-common
-description: 所有开发 skill 的公共规范，定义先读后写、改动最小化等通用规则
-tags: [development, common, standards]
-version: 1.0.0
-author: Wenchao Chen
----
-
 # /dev/common — 公共开发规范
 
 > 本文件定义所有开发 skill（backend-java / backend-python / frontend）的公共规则。

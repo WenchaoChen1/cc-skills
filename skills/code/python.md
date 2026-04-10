@@ -1,11 +1,3 @@
----
-name: backend-python
-description: 基于设计文档实现 Python 后端代码，适用于 FastAPI / Flask / Django 等框架
-tags: [development, backend, python]
-version: 1.0.0
-author: Wenchao Chen
----
-
 # /dev/backend-python — Python 后端开发
 
 > 基于设计文档实现 Python 后端代码。适用于 FastAPI / Flask / Django / 其他 Python 框架（从 CLAUDE.md 确认）。

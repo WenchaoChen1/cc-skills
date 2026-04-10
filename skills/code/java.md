@@ -1,11 +1,3 @@
----
-name: backend-java
-description: 基于设计文档实现 Java 后端代码，适用于 Spring Boot 等 Java 框架
-tags: [development, backend, java]
-version: 1.0.0
-author: Wenchao Chen
----
-
 # /dev/backend-java — Java 后端开发
 
 > 基于设计文档实现 Java 后端代码。适用于 Spring Boot / Spring Cloud / 其他 Java 框架（从 CLAUDE.md 确认）。
