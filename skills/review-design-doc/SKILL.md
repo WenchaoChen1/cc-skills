@@ -1,6 +1,6 @@
 ---
 name: review-design-doc
-description: 审查功能设计文档，检查需求覆盖率、接口规范、前后端一致性，输出审查报告
+description: "TRIGGER: 当用户提供设计文档或要求审查设计时必须使用。审查功能设计文档，检查需求覆盖率、接口规范、前后端一致性，输出审查报告"
 tags: [review, documentation, design]
 version: 1.0.0
 author: Wenchao Chen

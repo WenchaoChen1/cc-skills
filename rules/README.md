@@ -1,48 +1,111 @@
-# 规则系统
+# Rules
+## Structure
 
-## 概述
-
-`rules/` 目录下的规则文件定义项目级编码规范。Claude Code 和 Cursor 会在会话启动时自动加载这些规则，确保 AI 辅助编码过程中遵循团队约定的最佳实践。
-
-## 目录结构
+Rules are organized into a **common** layer plus **language-specific** directories:
 
 ```
 rules/
-├── README.md              # 本说明文件
-├── common/                # 语言无关的通用规则
-│   ├── coding-style.md        # 编码风格
-│   ├── git-workflow.md        # Git 工作流
-│   └── security.md            # 安全规范
-└── lg/                    # LG (CIOaaS) 项目特定规则
-    ├── README.md              # LG 规则说明
-    ├── api-architecture.md    # API（Java）架构规范
-    ├── api-coding.md          # API（Java）代码规范
-    ├── api-git.md             # API Git 规范
-    ├── web-architecture.md    # Web（React）架构规范
-    ├── web-coding.md          # Web（React）代码规范
-    ├── web-git.md             # Web Git 规范
-    ├── python-architecture.md # Python 架构规范
-    ├── python-coding.md       # Python 代码规范
-    ├── python-git.md          # Python Git 规范
-    └── mcp-tools.md           # MCP 工具使用规则
+├── common/          # Language-agnostic principles (always install)
+│   ├── coding-style.md
+│   ├── git-workflow.md
+│   ├── testing.md
+│   ├── performance.md
+│   ├── patterns.md
+│   ├── hooks.md
+│   ├── agents.md
+│   └── security.md
+├── typescript/      # TypeScript/JavaScript specific
+├── python/          # Python specific
+├── golang/          # Go specific
+├── web/             # Web and frontend specific
+├── swift/           # Swift specific
+└── php/             # PHP specific
 ```
 
-- **common/** — 语言无关的通用规则，适用于所有项目
-- **lg/** — LG (CIOaaS) 项目特定规则，包含 API（Java）、Web（React）、Python 三个子项目的架构、编码、Git 规范及 MCP 工具使用规则
-- 未来可扩展语言特定目录，例如 `typescript/`、`python/`、`go/` 等
+- **common/** contains universal principles — no language-specific code examples.
+- **Language directories** extend the common rules with framework-specific patterns, tools, and code examples. Each file references its common counterpart.
 
-## 优先级
+## Installation
 
-规则按以下优先级生效（高优先级覆盖低优先级）：
+### Option 1: Install Script (Recommended)
 
-1. **项目特定规则**（如 `lg/`）— 最高优先级
-2. **语言特定规则**（如 `typescript/`）— 次高优先级
-3. **通用规则**（`common/`）— 次优先级
-4. **默认行为** — AI 模型内置的编码习惯
+```bash
+# Install common + one or more language-specific rule sets
+./install.sh typescript
+./install.sh python
+./install.sh golang
+./install.sh web
+./install.sh swift
+./install.sh php
 
-## 如何添加新规则
+# Install multiple languages at once
+./install.sh typescript python
+```
 
-1. 确定规则类别：通用规则放入 `common/`，语言特定规则放入对应目录
-2. 创建 Markdown 文件，文件名使用 `kebab-case`（如 `error-handling.md`）
-3. 文件内容包含：标题、规范说明、示例代码（如适用）、检查清单
-4. 在本 README 中更新目录结构说明
+### Option 2: Manual Installation
+
+> **Important:** Copy entire directories — do NOT flatten with `/*`.
+> Common and language-specific directories contain files with the same names.
+> Flattening them into one directory causes language-specific files to overwrite
+> common rules, and breaks the relative `../common/` references used by
+> language-specific files.
+
+```bash
+# Install common rules (required for all projects)
+cp -r rules/common ~/.claude/rules/common
+
+# Install language-specific rules based on your project's tech stack
+cp -r rules/typescript ~/.claude/rules/typescript
+cp -r rules/python ~/.claude/rules/python
+cp -r rules/golang ~/.claude/rules/golang
+cp -r rules/web ~/.claude/rules/web
+cp -r rules/swift ~/.claude/rules/swift
+cp -r rules/php ~/.claude/rules/php
+
+# Attention ! ! ! Configure according to your actual project requirements; the configuration here is for reference only.
+```
+
+## Rules vs Skills
+
+- **Rules** define standards, conventions, and checklists that apply broadly (e.g., "80% test coverage", "no hardcoded secrets").
+- **Skills** (`skills/` directory) provide deep, actionable reference material for specific tasks (e.g., `python-patterns`, `golang-testing`).
+
+Language-specific rule files reference relevant skills where appropriate. Rules tell you *what* to do; skills tell you *how* to do it.
+
+## Adding a New Language
+
+To add support for a new language (e.g., `rust/`):
+
+1. Create a `rules/rust/` directory
+2. Add files that extend the common rules:
+   - `coding-style.md` — formatting tools, idioms, error handling patterns
+   - `testing.md` — test framework, coverage tools, test organization
+   - `patterns.md` — language-specific design patterns
+   - `hooks.md` — PostToolUse hooks for formatters, linters, type checkers
+   - `security.md` — secret management, security scanning tools
+3. Each file should start with:
+   ```
+   > This file extends [common/xxx.md](../common/xxx.md) with <Language> specific content.
+   ```
+4. Reference existing skills if available, or create new ones under `skills/`.
+
+For non-language domains like `web/`, follow the same layered pattern when there is enough reusable domain-specific guidance to justify a standalone ruleset.
+
+## Rule Priority
+
+When language-specific rules and common rules conflict, **language-specific rules take precedence** (specific overrides general). This follows the standard layered configuration pattern (similar to CSS specificity or `.gitignore` precedence).
+
+- `rules/common/` defines universal defaults applicable to all projects.
+- `rules/golang/`, `rules/python/`, `rules/swift/`, `rules/php/`, `rules/typescript/`, etc. override those defaults where language idioms differ.
+
+### Example
+
+`common/coding-style.md` recommends immutability as a default principle. A language-specific `golang/coding-style.md` can override this:
+
+> Idiomatic Go uses pointer receivers for struct mutation — see [common/coding-style.md](../common/coding-style.md) for the general principle, but Go-idiomatic mutation is preferred here.
+
+### Common rules with override notes
+
+Rules in `rules/common/` that may be overridden by language-specific files are marked with:
+
+> **Language note**: This rule may be overridden by language-specific rules for languages where this pattern is not idiomatic.

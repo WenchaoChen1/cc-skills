@@ -1,6 +1,6 @@
 ---
 name: dev-run
-description: 智能调度器，读取设计文档自动检测技术栈并分发到对应子 skill 执行开发
+description: "TRIGGER: 当用户要求开发功能或开始实现时必须使用。智能调度器，读取设计文档自动检测技术栈并分发到对应子 skill 执行开发"
 tags: [development, orchestration]
 version: 1.0.0
 author: Wenchao Chen

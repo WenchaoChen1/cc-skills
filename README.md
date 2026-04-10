@@ -142,14 +142,22 @@ Codex、OpenCode 等平台的支持正在规划中，详见对应目录下的 `I
 
 ## 规则系统
 
-`rules/` 目录包含项目级编码规范和工作流约定，Claude Code 和 Cursor 会自动加载。
+`rules/` 包含 100 个规则文件，覆盖 15 种编程语言。**需要手动安装到 `~/.claude/rules/` 才能生效**：
 
-当前包含通用规则（`rules/common/`）：
-- 编码风格
-- Git 工作流
-- 安全规范
+```bash
+# 必装：通用规则
+cp -r rules/common ~/.claude/rules/common
 
-未来将按需添加语言特定规则。详见 [rules/README.md](rules/README.md)。
+# 选装：按技术栈安装语言规则
+cp -r rules/java ~/.claude/rules/java
+cp -r rules/typescript ~/.claude/rules/typescript
+cp -r rules/python ~/.claude/rules/python
+
+# 选装：中文版通用规则
+cp -r rules/zh ~/.claude/rules/zh
+```
+
+安装后**重启 Claude Code 会话**即可自动加载。详见 [rules/README.md](rules/README.md)。
 
 ## 项目结构
 

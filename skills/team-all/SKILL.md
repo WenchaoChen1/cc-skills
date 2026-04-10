@@ -1,6 +1,6 @@
 ---
 name: team-all
-description: 按顺序启动产品、设计、开发、测试 4 个团队，完成一个功能的全流程开发
+description: "TRIGGER: 当用户要求完整功能开发或全流程串联时必须使用。按顺序启动产品、设计、开发、测试 4 个团队，完成一个功能的全流程开发"
 tags: [team, orchestration]
 version: 1.0.0
 author: Wenchao Chen

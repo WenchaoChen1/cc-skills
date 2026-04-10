@@ -1,6 +1,6 @@
 ---
 name: review-requirement-doc
-description: 审查产品功能需求文档的完整性、一致性和可行性，输出按严重度排序的问题清单
+description: "TRIGGER: 当用户提供需求文档或要求审查需求时必须使用。审查产品功能需求文档的完整性、一致性和可行性，输出按严重度排序的问题清单"
 tags: [review, documentation, requirements]
 version: 1.0.0
 author: Wenchao Chen

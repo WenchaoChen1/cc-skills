@@ -1,31 +1,29 @@
-# 安全规范
+# Security Guidelines
 
-## 强制安全检查清单
+## Mandatory Security Checks
 
-每次提交代码前，必须确认以下各项：
+Before ANY commit:
+- [ ] No hardcoded secrets (API keys, passwords, tokens)
+- [ ] All user inputs validated
+- [ ] SQL injection prevention (parameterized queries)
+- [ ] XSS prevention (sanitized HTML)
+- [ ] CSRF protection enabled
+- [ ] Authentication/authorization verified
+- [ ] Rate limiting on all endpoints
+- [ ] Error messages don't leak sensitive data
 
-- [ ] **禁止硬编码密钥**：源代码中不包含 API key、密码、token 等敏感信息
-- [ ] **输入校验**：所有用户输入已进行校验和清理
-- [ ] **SQL 注入防护**：使用参数化查询，禁止字符串拼接构建 SQL
-- [ ] **XSS 防护**：所有用户输入在输出前已正确转义
-- [ ] **CSRF 保护**：表单和状态变更接口已启用 CSRF 令牌
-- [ ] **认证授权**：接口已验证用户身份和权限
-- [ ] **限流**：所有公开端点已配置速率限制
-- [ ] **错误消息安全**：错误响应不泄露敏感数据（堆栈信息、数据库结构、内部路径等）
+## Secret Management
 
-## 密钥管理
+- NEVER hardcode secrets in source code
+- ALWAYS use environment variables or a secret manager
+- Validate that required secrets are present at startup
+- Rotate any secrets that may have been exposed
 
-- **永远不要**在源代码中硬编码密钥
-- **始终使用**环境变量或密钥管理器（如 Vault、AWS Secrets Manager）
-- 应用启动时验证必要的密钥是否已配置
-- 发现密钥泄露后立即轮换（rotate）所有受影响的密钥
+## Security Response Protocol
 
-## 安全响应流程
-
-发现安全问题时，按以下步骤处理：
-
-1. **立即停止**当前工作，优先处理安全问题
-2. **评估影响范围**：确定受影响的数据、用户和系统
-3. **修复 CRITICAL 级别问题**后再继续其他开发
-4. **轮换密钥**：如有密钥可能已泄露，立即更换
-5. **全面排查**：审查整个代码库是否存在类似问题
+If security issue found:
+1. STOP immediately
+2. Use **security-reviewer** agent
+3. Fix CRITICAL issues before continuing
+4. Rotate any exposed secrets
+5. Review entire codebase for similar issues

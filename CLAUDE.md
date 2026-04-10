@@ -60,12 +60,15 @@ author: Wenchao Chen               # 可选
 
 ## 规则系统
 
-`rules/common/` 下的 3 个规则文件会被自动加载：
-- `coding-style.md` — 不可变性、文件组织、命名
-- `git-workflow.md` — commit 格式、分支策略
-- `security.md` — 密钥管理、输入校验
+`rules/` 下的规则文件按层级组织，详见 [rules/README.md](rules/README.md)：
 
-未来可按需添加语言特定规则目录（如 `rules/typescript/`），语言规则优先级高于 common。
+- **common/**（10 文件）— 语言无关的通用规则（英文）
+- **zh/**（11 文件）— 中文翻译版本，含增强内容（命名规范、分支策略等）
+- **12 个语言目录**（各 5 文件）— cpp、csharp、dart、golang、java、kotlin、perl、php、python、rust、swift、typescript
+- **web/**（7 文件）— Web 前端通用规则
+- **lg/**（11 文件）— LG (CIOaaS) 项目特定规则
+
+优先级：项目特定 > 语言特定 > 通用 > 默认行为。
 
 ## 添加新 Skill
 

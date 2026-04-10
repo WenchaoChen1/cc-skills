@@ -70,7 +70,9 @@ if [[ -z "$skill_list" ]]; then
 fi
 
 # ── 构建 additionalContext 内容 ────────────────────────────
-context="cc-skills 可用技能:\\n${skill_list}"
+auto_rules="\\n\\n自动使用规则:\\n- 用户提到审查需求或提供需求文档 → 调用 review-requirement-doc\\n- 用户提到审查设计或提供设计文档 → 调用 review-design-doc\\n- 用户说开发或开始做功能 → 调用 dev-run 检测技术栈\\n- 用户提供 Asana ticket 链接 → 调用 review-asana-ticket\\n- 用户要求完整功能开发 → 调用 team-all 编排 4 个团队\\n- 用户要求生成需求文档 → 调用 gen-requirement-doc\\n- 用户要求生成设计文档 → 调用 gen-design-doc\\n- 用户要求快速修复 bug → 调用 hotfix"
+
+context="cc-skills 可用技能:\\n${skill_list}${auto_rules}"
 
 # ── 转义 JSON 字符串中的特殊字符 ──────────────────────────
 json_escape() {

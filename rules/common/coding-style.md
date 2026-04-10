@@ -1,64 +1,90 @@
-# 编码风格
+# Coding Style
 
-## 不可变性（核心原则）
+## Immutability (CRITICAL)
 
-永远创建新对象，不修改现有对象。这是最重要的编码原则。
+ALWAYS create new objects, NEVER mutate existing ones:
 
 ```
-# 错误：直接修改原对象
-modify(original, field, value)  → 原对象被就地修改
-
-# 正确：创建新对象
-update(original, field, value)  → 返回包含变更的新副本，原对象不变
+// Pseudocode
+WRONG:  modify(original, field, value) → changes original in-place
+CORRECT: update(original, field, value) → returns new copy with change
 ```
 
-**原因：** 不可变数据能够防止隐藏的副作用，使调试更加简单，并支持安全的并发操作。
+Rationale: Immutable data prevents hidden side effects, makes debugging easier, and enables safe concurrency.
 
-## 文件组织
+## Core Principles
 
-**多个小文件优于少数大文件：**
+### KISS (Keep It Simple)
 
-- 高内聚、低耦合
-- 典型文件长度 200-400 行，上限 800 行
-- 从大模块中提取工具函数
-- 按功能/领域组织，而非按类型组织
+- Prefer the simplest solution that actually works
+- Avoid premature optimization
+- Optimize for clarity over cleverness
 
-## 命名规范
+### DRY (Don't Repeat Yourself)
 
-| 类别 | 风格 | 示例 |
-|------|------|------|
-| 变量、函数、方法 | camelCase | `getUserName`、`isActive` |
-| 类、接口、类型 | PascalCase | `UserService`、`HttpClient` |
-| 常量 | UPPER_SNAKE_CASE | `MAX_RETRY_COUNT`、`API_BASE_URL` |
-| 文件名 | kebab-case 或 camelCase | `user-service.ts`、`httpClient.py` |
+- Extract repeated logic into shared functions or utilities
+- Avoid copy-paste implementation drift
+- Introduce abstractions when repetition is real, not speculative
 
-- 使用有意义的名称，避免无意义的缩写
-- 布尔值以 `is`、`has`、`should`、`can` 等前缀命名
+### YAGNI (You Aren't Gonna Need It)
 
-## 错误处理
+- Do not build features or abstractions before they are needed
+- Avoid speculative generality
+- Start simple, then refactor when the pressure is real
 
-- 在每个层级显式处理错误，不依赖隐式传播
-- 面向用户的代码提供友好的错误消息
-- 服务端记录详细的错误上下文（堆栈、请求参数等）
-- 永远不要静默吞掉错误（空 catch 块）
+## File Organization
 
-## 输入校验
+MANY SMALL FILES > FEW LARGE FILES:
+- High cohesion, low coupling
+- 200-400 lines typical, 800 max
+- Extract utilities from large modules
+- Organize by feature/domain, not by type
 
-在系统边界校验所有外部输入：
+## Error Handling
 
-- 校验所有用户输入后再处理
-- 优先使用基于 schema 的校验方式
-- 校验失败时快速失败（fail fast），返回清晰的错误消息
-- 永远不信任外部数据（API 响应、用户输入、文件内容）
+ALWAYS handle errors comprehensively:
+- Handle errors explicitly at every level
+- Provide user-friendly error messages in UI-facing code
+- Log detailed error context on the server side
+- Never silently swallow errors
 
-## 代码质量检查清单
+## Input Validation
 
-每次完成编码前检查：
+ALWAYS validate at system boundaries:
+- Validate all user input before processing
+- Use schema-based validation where available
+- Fail fast with clear error messages
+- Never trust external data (API responses, user input, file content)
 
-- [ ] 代码可读性好，命名有意义
-- [ ] 函数短小精悍（不超过 50 行）
-- [ ] 文件职责明确（不超过 800 行）
-- [ ] 没有超过 4 层的深度嵌套
-- [ ] 错误处理完善
-- [ ] 没有硬编码值（使用常量或配置）
-- [ ] 使用不可变模式，没有就地修改
+## Naming Conventions
+
+- Variables and functions: `camelCase` with descriptive names
+- Booleans: prefer `is`, `has`, `should`, or `can` prefixes
+- Interfaces, types, and components: `PascalCase`
+- Constants: `UPPER_SNAKE_CASE`
+- Custom hooks: `camelCase` with a `use` prefix
+
+## Code Smells to Avoid
+
+### Deep Nesting
+
+Prefer early returns over nested conditionals once the logic starts stacking.
+
+### Magic Numbers
+
+Use named constants for meaningful thresholds, delays, and limits.
+
+### Long Functions
+
+Split large functions into focused pieces with clear responsibilities.
+
+## Code Quality Checklist
+
+Before marking work complete:
+- [ ] Code is readable and well-named
+- [ ] Functions are small (<50 lines)
+- [ ] Files are focused (<800 lines)
+- [ ] No deep nesting (>4 levels)
+- [ ] Proper error handling
+- [ ] No hardcoded values (use constants or config)
+- [ ] No mutation (immutable patterns used)

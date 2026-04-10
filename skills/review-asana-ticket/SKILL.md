@@ -1,6 +1,6 @@
 ---
 name: review-asana-ticket
-description: 审查 Asana ticket 的需求质量，从完整性、清晰度、分解、协作、风险、可测试性六个维度打分并给出改进建议
+description: "TRIGGER: 当用户提供 Asana ticket 链接或 GID 时必须使用。审查 Asana ticket 的需求质量，六维度打分并给出改进建议"
 tags: [review, asana, requirements, project-management]
 version: 1.0.0
 author: Wenchao Chen
