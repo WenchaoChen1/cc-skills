@@ -87,7 +87,7 @@ Codex、OpenCode 等平台的支持正在规划中，详见对应目录下的 `I
 | arch-designer | 设计编写 |
 | arch-questioner | 技术疑点收集 |
 | arch-reviewer | 设计审查 |
-| coder | 统一代码编写（自动检测技术栈） |
+| code | 统一代码编写（执行 code skill） |
 | demo-researcher | 代码研究员 |
 | dev-reviewer | 代码审查 |
 | pm-questioner | 需求疑点收集 |

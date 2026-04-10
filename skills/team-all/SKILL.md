@@ -39,7 +39,7 @@ author: Wenchao Chen
   产出：dev-design-doc.md
                     ↓
 /team-code     开发团队（3 人）
-  coder ‖ coder 并行开发
+  code ‖ code 并行开发
   → dev-reviewer 审查 → 修复
   产出：后端代码 + 前端代码
                     ↓
@@ -98,7 +98,7 @@ author: Wenchao Chen
 ### 阶段 3：开发团队
 
 按 `/team-code` 完整流程执行：
-1. coder + coder 并行开发
+1. code + code 并行开发
 2. dev-reviewer 审查实现
 3. 若有问题 → 修复 → 复核（1 轮）
 
