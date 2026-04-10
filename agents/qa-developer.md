@@ -44,4 +44,4 @@ skills:
 - `<后端项目>/.../XxxServiceTest.java`
 - `<后端项目>/.../XxxControllerTest.java`
 - `<前端项目>/src/pages/xxx/__tests__/index.test.tsx`
-- `features/<name>/unit-test/README.md` — 测试文件索引
+- `{features}/{name}/unit-test/README.md` — 测试文件索引

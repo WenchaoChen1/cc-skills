@@ -6,7 +6,7 @@ model: sonnet
 effort: high
 ---
 
-> 架构团队 · 技术疑点收集。阅读设计初稿，整理 3-10 个需要用户确认的技术决策问题。产出：`features/<name>/dev-design/tech-questions.md`
+> 架构团队 · 技术疑点收集。阅读设计初稿，整理 3-10 个需要用户确认的技术决策问题。产出：`{features}/{name}/dev-design/tech-questions.md`
 
 # Architect Team — 技术疑点收集 (arch-questioner)
 
@@ -41,7 +41,7 @@ effort: high
 
 ## 输出
 
-写入：`features/<name>/dev-design/tech-questions.md`
+写入：`{features}/{name}/dev-design/tech-questions.md`
 
 格式：
 ```markdown

@@ -8,7 +8,7 @@ skills:
   - review-requirement-doc
 ---
 
-> 产品团队 · 需求审查。审查需求文档的完整性、逻辑闭环和可实现性，最终阶段负责功能验收。产出：`features/<name>/reviews/requirement-review.md`
+> 产品团队 · 需求审查。审查需求文档的完整性、逻辑闭环和可实现性，最终阶段负责功能验收。产出：`{features}/{name}/reviews/requirement-review.md`
 
 # PM Team — 需求审查 (pm-reviewer)
 
@@ -48,7 +48,7 @@ skills:
 - 术语是否全文一致
 - **是否存在技术实现泄漏**（API 路径、数据库表等应由设计文档负责）
 
-审查报告输出至：`features/<name>/reviews/requirement-review.md`
+审查报告输出至：`{features}/{name}/reviews/requirement-review.md`
 
 ## 最终验收
 
@@ -59,5 +59,5 @@ skills:
 
 ## 产出
 
-- `features/<name>/reviews/requirement-review.md` — 审查报告
+- `{features}/{name}/reviews/requirement-review.md` — 审查报告
 - 验收报告（最终阶段）

@@ -60,17 +60,17 @@ author: Wenchao Chen
 
 ### 读取配置变量
 
-1. 读取 `<project>/cc-cache-doc/cc-skills.json`（项目配置，最高优先级）
-2. 读取 `~/.cc-cache-doc/cc-skills.json`（个人配置）
+1. 读取 `<project>/{project_root}/cc-skills.json`（项目配置，最高优先级）
+2. 读取 `~/{personal_root}/cc-skills.json`（个人配置）
 3. 未配置的变量使用默认值
 
-| 变量 | 默认值 | 可配置 |
-|------|--------|--------|
-| `project_root` | `cc-cache-doc` | ✅ |
-| `personal_root` | `~/.cc-cache-doc` | ✅ |
-| `features` | `features` | ✅ |
-| `rules` | `rules` | ✅ |
-| `standards` | `standards` | ✅ |
+| 变量 | 默认值 | 可配置 | 备注 |
+|------|--------|--------|------|
+| `project_root` | `cc-cache-doc` | ✅ | 可为空 |
+| `personal_root` | `.cc-cache-doc` | ✅ | 可为空 |
+| `features` | `features` | ✅ | 必填 |
+| `rules` | `rules` | ✅ | 必填 |
+| `standards` | `standards` | ✅ | 必填 |
 
 ### 拼接路径
 
@@ -84,7 +84,7 @@ author: Wenchao Chen
 | `{personal_rules}` | `{personal_root}` / `{rules}` |
 | `{personal_standards}` | `{personal_root}` / `{standards}` |
 
-示例：`{features}/{name}/requirement/` = `cc-cache-doc/features/{name}/requirement/`
+示例：`{features}/{name}/requirement/` = `{project_root}/{features}/{name}/requirement/`
 
 ### 功能目录识别
 

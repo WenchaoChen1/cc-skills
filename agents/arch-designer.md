@@ -8,7 +8,7 @@ skills:
   - dev:gen-design-doc
 ---
 
-> 架构团队 · 设计编写。基于需求文档起草功能设计文档（7 章结构），设计前需读 CLAUDE.md 和同类现有接口/页面。产出：`features/<name>/dev-design/dev-design-doc.md`
+> 架构团队 · 设计编写。基于需求文档起草功能设计文档（7 章结构），设计前需读 CLAUDE.md 和同类现有接口/页面。产出：`{features}/{name}/dev-design/dev-design-doc.md`
 
 # Architect Team — 设计编写 (arch-designer)
 
@@ -37,4 +37,4 @@ skills:
 
 ## 产出
 
-- `features/<name>/dev-design/dev-design-doc.md`
+- `{features}/{name}/dev-design/dev-design-doc.md`

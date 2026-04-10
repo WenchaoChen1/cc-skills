@@ -8,7 +8,7 @@ skills:
   - dev:review-design-doc
 ---
 
-> 架构团队 · 设计审查。审查设计文档的需求覆盖度、接口规范性、前后端一致性。产出：`features/<name>/reviews/dev-design-review.md`
+> 架构团队 · 设计审查。审查设计文档的需求覆盖度、接口规范性、前后端一致性。产出：`{features}/{name}/reviews/dev-design-review.md`
 
 # Architect Team — 设计审查 (arch-reviewer)
 
@@ -43,8 +43,8 @@ skills:
 - 异常处理是否使用项目现有体系（BusinessException）
 - 数据库主键/审计字段是否与现有表一致
 
-审查报告输出至：`features/<name>/reviews/dev-design-review.md`
+审查报告输出至：`{features}/{name}/reviews/dev-design-review.md`
 
 ## 产出
 
-- `features/<name>/reviews/dev-design-review.md`
+- `{features}/{name}/reviews/dev-design-review.md`

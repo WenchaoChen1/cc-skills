@@ -46,9 +46,9 @@
 
 **必须读取代码规范（三层，优先级：子项目 > 项目 > 个人）**：
 
-1. 个人规范（`~/.claude/standards/`）：`common.md` + 对应端规范
-2. 项目规范（`.claude/standards/common.md`，如存在）
-3. 子项目规范（子项目 `.claude/standards/architecture.md` + `coding.md`，如存在）
+1. 个人规范（`{personal_standards}/`）：`common.md` + 对应端规范
+2. 项目规范（`{standards}/common.md`，如存在）
+3. 子项目规范（子项目 `{standards}/architecture.md` + `{standards}/coding.md`，如存在）
 
 > **关键**：后续所有步骤中的具体路径、包名、框架版本、ORM 工具、响应格式等，均以 `CLAUDE.md`、代码规范和实际项目代码为准，不使用任何预设值。
 
