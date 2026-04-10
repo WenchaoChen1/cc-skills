@@ -66,7 +66,7 @@ author: Wenchao Chen               # 可选
 - **zh/**（11 文件）— 中文翻译版本，含增强内容（命名规范、分支策略等）
 - **12 个语言目录**（各 5 文件）— cpp、csharp、dart、golang、java、kotlin、perl、php、python、rust、swift、typescript
 - **web/**（7 文件）— Web 前端通用规则
-- **lg/**（11 文件）— LG (CIOaaS) 项目特定规则
+- **lg/**（14 文件）— LG (CIOaaS) 项目特定规则
 
 优先级：项目特定 > 语言特定 > 通用 > 默认行为。
 
